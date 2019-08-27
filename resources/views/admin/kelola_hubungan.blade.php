@@ -8,20 +8,22 @@
 @section('css')
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="vendor/taginputs/tagsinput.css" rel="stylesheet">
 @endsection
 
 @section('content')
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Kelola Hubungan</h1>
-<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
-  <div style="width:auto" class="ml-auto">
-  <a class="btn btn-primary btn-icon-split" href="#">
-     <span class="icon text-white-50">
-       <i class="fas fa-plus"></i>
-     </span>
-     <span class="text">Split Button Primary</span>
-   </a>
+<div class="row">
+  <div class="col">
+    <a class="btn btn-primary btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addHubungan">
+       <span class="icon text-white-50">
+         <i class="fas fa-plus"></i>
+       </span>
+       <span class="text">Hubungan Bapak dan Anak Asuh</span>
+     </a>
+  </div>
 </div>
 <br>
 <!-- DataTales Example -->
@@ -91,6 +93,7 @@
 
 @section('javascript')
 
+@include('admin.modal.add_hubungan')
 @include('admin.modal.edit_hubungan')
 
 <!-- Bootstrap core JavaScript-->
@@ -109,5 +112,6 @@
 
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
+<script src="vendor/taginputs/tagsinput.js"></script>
 
 @endsection

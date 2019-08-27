@@ -29,3 +29,6 @@ Route::get('/kelola-slider', function () {
 Route::get('/bapak-asuh', function () {
     return view('admin.bapak_asuh');
 });
+Route::get('/anak-asuh', function () {
+    return view('admin.data_anak_asuh');
+});

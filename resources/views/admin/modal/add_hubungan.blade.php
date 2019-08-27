@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="addHubungan" tabindex="-1" role="dialog" aria-labelledby="addHubunganTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Edit hubungan bapak dan anak asuh </h5>
+        <h5 class="modal-title" id="addHubunganTitle">Tambah hubungan bapak dan anak asuh </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
