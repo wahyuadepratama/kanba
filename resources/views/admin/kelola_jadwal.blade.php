@@ -112,4 +112,8 @@
 <script src="js/demo/datatables-demo.js"></script>
 <script src="vendor/taginputs/tagsinput.js"></script>
 
+<script type="text/javascript">
+  $('#datepicker').datepicker();
+</script>
+
 @endsection

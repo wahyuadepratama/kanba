@@ -32,3 +32,15 @@ Route::get('/bapak-asuh', function () {
 Route::get('/anak-asuh', function () {
     return view('admin.data_anak_asuh');
 });
+Route::get('/coach', function () {
+    return view('coach.home');
+});
+Route::get('/coach-schedule', function () {
+    return view('coach.buat_jadwal');
+});
+Route::get('/coach-status', function () {
+    return view('coach.status');
+});
+Route::get('/coach-performa', function () {
+    return view('coach.performa');
+});
