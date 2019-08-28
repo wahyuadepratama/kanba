@@ -1,0 +1,58 @@
+ /* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {  }
+
+/*  Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  .d-block-none{
+    display: none !important;
+  }
+  #user-icon{
+    margin: auto !important;
+  }
+
+ }
+
+ /* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .grid-performa{
+    grid-template-columns: 1fr;
+    grid-auto-columns: auto auto auto auto auto auto;
+    grid-template-areas:
+    "grid-performa-1 "
+    "grid-performa-2"
+    "grid-performa-4"
+    "grid-performa-5"
+    "grid-performa-3"
+    "grid-performa-6" !important
+  }
+  .grid-box-menu{
+    grid-template-columns: 3.5rem 1fr;
+    grid-auto-rows: auto;
+    grid-gap: 10px;
+    grid-template-areas:
+    "area-bm-1 area-bm-2"
+  }
+  .area-bm-1{
+    max-width: 20px;
+    vertical-align: middle
+  }
+  .area-bm-1>img{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .box-menu{
+    text-align: left;
+  }
+  .grid-performa-coach{
+    grid-auto-columns: 100%;
+    grid-auto-rows: auto auto;
+    grid-template-areas:
+    "performa-form"
+    "performa-chart"
+  }
+ }
+
+ /* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {  }

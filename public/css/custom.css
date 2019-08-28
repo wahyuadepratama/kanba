@@ -1,0 +1,130 @@
+@import url("responsive.css");
+
+.grid-performa{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: auto auto;
+  grid-gap: 10px;
+  grid-template-areas:
+  "grid-performa-1 grid-performa-2 grid-performa-3"
+  "grid-performa-4 grid-performa-5 grid-performa-6"
+}
+.grid-performa-1{
+  grid-area: grid-performa-1;
+}
+.grid-performa-2{
+  grid-area: grid-performa-2;
+}
+.grid-performa-3{
+  grid-area: grid-performa-3;
+}
+.grid-performa-4{
+  grid-area: grid-performa-4;
+}
+.grid-performa-5{
+  grid-area:grid-performa-5
+}
+.grid-performa-6{
+  grid-area:grid-performa-6;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img.img-slider-table{
+  width: 200px !important;
+  height: 100px !important;
+  object-fit: fill;
+  object-position: center;
+}
+
+/*  */
+.carousel-item>img{
+  width: 50vw;
+  height: 50vh;
+  object-fit: cover;
+}
+
+/*  */
+.box-menu{
+  max-width: auto;
+  background-color:  #fbc727;
+  text-align: center;
+  margin: auto;
+  padding: 15px;
+  color:black;
+  font-weight: bold;
+}
+.box-menu div .area-bm-2 p{
+  font-size: 15px;
+  font-weight: normal;
+  margin: 0;
+}
+.container.home-coach .row{
+  max-width: 800px;
+  margin: auto;
+}
+.container.home-coach .row .col-md-4{
+  margin-bottom: 20px;
+}
+.grid-box-menu{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto auto;
+  grid-gap: 20px;
+  grid-template-areas:
+  "area-bm-1"
+  "area-bm-2"
+}
+.area-bm-1{
+  grid-area: area-bm-1;
+}
+.area-bm-2{
+  grid-area: area-bm-2;
+}
+
+/*  */
+.topbar.navbar-light .navbar-nav.coach .nav-item .nav-link {
+    color: black;
+}
+
+/*  */
+.banner-menu{
+  display: grid;
+  background: #fbc727;
+  border-radius: 20px;
+  padding: 20px;
+  grid-template-columns: 1fr auto;
+  grid-auto-columns: auto;
+  grid-template-areas:
+  "area-banner-2 area-banner-1"
+}
+
+.area-banner-1{
+  grid-area: area-banner-1;
+  padding: 0px 20px 0px 20px;
+
+}
+.area-banner-1>img{
+  margin: auto;
+}
+.area-banner-2{
+  grid-area:area-banner-2;
+  padding: 0px 20px 0px 20px;
+}
+
+.grid-performa-coach{
+  display: grid;
+  border-radius: 20px;
+  grid-gap: 20px;
+  grid-auto-columns: 1fr 15rem;
+  grid-auto-rows: auto;
+  grid-template-areas:
+  "performa-chart performa-form"
+}
+.performa-chart{
+  grid-area: performa-chart
+}
+.performa-form{
+  grid-area: performa-form
+}
