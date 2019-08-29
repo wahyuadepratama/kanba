@@ -13,10 +13,10 @@
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Kelola Jadwal</h1>
+<h1 class="h4 mb-2 text-gray-800">Kelola Jadwal</h1>
 <div class="grid-performa">
   <div class="grid-performa-1">
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select class="form-control btn-sm" id="exampleFormControlSelect1">
       <option>2019</option>
       <option>2</option>
       <option>3</option>
@@ -25,7 +25,7 @@
     </select>
   </div>
   <div class="grid-performa-2">
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select class="form-control btn-sm" id="exampleFormControlSelect1">
       <option>Week 33</option>
       <option>2</option>
       <option>3</option>
@@ -35,7 +35,7 @@
   </div>
   <div class="grid-performa-3">
     <center>
-    <a class="btn btn-primary btn-icon-split" href="#" data-toggle="modal" data-target="#addHubungan">
+    <a class="btn btn-primary btn-sm btn-icon-split" href="#" data-toggle="modal" data-target="#addHubungan">
        <span class="icon text-white-50">
         <i class="fas fa-file-download"></i>
        </span>
@@ -44,7 +44,7 @@
    </center>
   </div>
   <div class="grid-performa-4">
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select class="form-control btn-sm" id="exampleFormControlSelect1">
       <option>Weekly</option>
       <option>2</option>
       <option>3</option>
@@ -53,7 +53,7 @@
     </select>
   </div>
   <div class="grid-performa-5">
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select class="form-control btn-sm" id="exampleFormControlSelect1">
       <option>All Coach</option>
       <option>2</option>
       <option>3</option>

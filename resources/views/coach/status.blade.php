@@ -26,7 +26,7 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
     <div class="col-sm-12">
       <div class="row">
         <div class="col-sm-2 offset-sm-8 pd-bottom" >
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
             <option>Januari</option>
             <option>Februari</option>
             <option>Maret</option>
@@ -42,7 +42,7 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
           </select>
         </div>
         <div class="col-sm-2 ">
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
             <option>2019</option>
             <option>2020</option>
             <option>2025</option>

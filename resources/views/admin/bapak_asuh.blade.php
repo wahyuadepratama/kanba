@@ -13,10 +13,10 @@
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Data Bapak Asuh</h1>
+<h1 class="h4 mb-2 text-gray-800">Data Bapak Asuh</h1>
 <div class="row">
   <div class="col">
-    <a class="btn btn-primary btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addBapakAsuh">
+    <a class="btn btn-primary btn-sm btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addBapakAsuh">
        <span class="icon text-white-50">
          <i class="fas fa-plus"></i>
        </span>

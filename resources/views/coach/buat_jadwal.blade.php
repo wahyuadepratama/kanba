@@ -22,7 +22,7 @@
   <br>
   <div class="row">
     <div class="col-md-6 pd-bottom">
-      <a class="btn btn-primary btn-icon-split" href="#" data-toggle="modal" data-target="#addJadwal">
+      <a class="btn btn-primary btn-sm btn-icon-split" href="#" data-toggle="modal" data-target="#addJadwal">
          <span class="icon text-white-50">
            <i class="fas fa-plus"></i>
          </span>
@@ -32,7 +32,7 @@
     <div class="col-md-6 ">
       <div class="row">
         <div class="col-md-3 offset-md-6 pd-bottom">
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
             <option>November</option>
             <option>2</option>
             <option>3</option>
@@ -41,7 +41,7 @@
           </select>
         </div>
         <div class="col-md-3">
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
             <option>2019</option>
             <option>2</option>
             <option>3</option>
