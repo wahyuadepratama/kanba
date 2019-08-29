@@ -44,3 +44,9 @@ Route::get('/coach-status', function () {
 Route::get('/coach-performa', function () {
     return view('coach.performa');
 });
+Route::get('/admin-login', function () {
+    return view('admin.login');
+});
+Route::get('/coach-login', function () {
+    return view('coach.login');
+});

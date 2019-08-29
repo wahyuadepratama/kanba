@@ -31,25 +31,21 @@
       <a class="navbar-brand" href="#">
         <img src="{{ asset('img/kanba.png')}}" height="50" class="d-inline-block align-middle" alt="">
       </a>
-      <!-- Sidebar Toggle (Topbar) -->
-      <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-      </button> -->
 
-      <ul class="navbar-nav mr-auto d-block-none coach">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Buat Jadwal</a>
+      <ul class="navbar-nav d-block-none coach clearfix" style="justify-content: center; margin-right:auto; margin-left:auto">
+        <li class="nav-item @yield('active-jadwal')">
+          <a class="nav-link" href="/coach-schedule">Buat Jadwal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Status</a>
+          <a class="nav-link @yield('active-status')" href="/coach-status">Status</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Performa</a>
+          <a class="nav-link @yield('active-performa')" href="/coach-performa">Performa</a>
         </li>
       </ul>
 
       <!-- Topbar Navbar -->
-      <ul class="navbar-nav ml-auto" id="user-icon">
+      <ul class="navbar-nav float-right" id="user-icon">
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,19 +55,19 @@
           </a>
           <!-- Dropdown - User Information -->
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item d-md-none" href="/coach-schedule">
               <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-              Profile
+              Buat Jadwal
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item d-md-none" href="/coach-status">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-              Settings
+              Status
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item d-md-none" href="/coach-performa">
               <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-              Activity Log
+              Performa
             </a>
-            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider d-md-none"></div>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
               Logout

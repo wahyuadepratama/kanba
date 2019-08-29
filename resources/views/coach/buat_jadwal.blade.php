@@ -12,6 +12,8 @@
 <img src="{{asset('img/Picture3.png')}}" alt="">
 @endsection
 
+@section('active-jadwal','active')
+
 @section('menu-title','Buat Jadwal')
 @section('menu-desc','Buat jadwal dengan anak asuh, agar coaching anda lebih teratur')
 
@@ -19,7 +21,7 @@
 <div class="container-fluid">
   <br>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 pd-bottom">
       <a class="btn btn-primary btn-icon-split" href="#" data-toggle="modal" data-target="#addJadwal">
          <span class="icon text-white-50">
            <i class="fas fa-plus"></i>
@@ -27,9 +29,9 @@
          <span class="text">Buat Jadwal Baru</span>
        </a>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 ">
       <div class="row">
-        <div class="col-md-3 offset-md-6">
+        <div class="col-md-3 offset-md-6 pd-bottom">
           <select class="form-control" id="exampleFormControlSelect1">
             <option>November</option>
             <option>2</option>
@@ -38,7 +40,7 @@
             <option>5</option>
           </select>
         </div>
-        <div class="col-md-3 ">
+        <div class="col-md-3">
           <select class="form-control" id="exampleFormControlSelect1">
             <option>2019</option>
             <option>2</option>
@@ -81,10 +83,10 @@
         </tfoot> -->
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Badu</td>
-            <td>10 November 2019 </td>
-            <td>0812131213</td>
+            <td data-th="No &#xa;">1</td>
+            <td data-th="Nama &#xa;">Badu</td>
+            <td data-th="Jadwal &#xa;">10 November 2019 </td>
+            <td data-th="No Handphone/WhatsApp &#xa;">0812131213</td>
             <td>
               <a class="btn btn-google btn-sm" href="#" ><i class="fas fa-trash"></i> Hapus Jadwal</a>
           </td>
@@ -102,16 +104,6 @@
 @endsection
 
 @section('javascript')
-<!-- Bootstrap core JavaScript-->
-
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
