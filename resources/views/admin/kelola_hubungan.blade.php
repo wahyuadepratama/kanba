@@ -14,10 +14,10 @@
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Kelola Hubungan</h1>
+<h3 class="h4 mb-2 text-gray-800">Kelola Hubungan</h3>
 <div class="row">
   <div class="col">
-    <a class="btn btn-primary btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addHubungan">
+    <a class="btn btn-primary btn-icon-split btn-sm float-right" href="#" data-toggle="modal" data-target="#addHubungan">
        <span class="icon text-white-50">
          <i class="fas fa-plus"></i>
        </span>

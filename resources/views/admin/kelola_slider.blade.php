@@ -5,6 +5,7 @@
 @section('active-slider','active')
 
 @section('content')
+<h1 class="h4 mb-2 text-gray-800">Kelola Jadwal</h1>
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
