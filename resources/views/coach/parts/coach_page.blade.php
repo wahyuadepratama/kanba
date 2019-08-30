@@ -6,7 +6,7 @@
        @yield('image-menu')
       </div>
       <div class="area-banner-2">
-        <span>@yield('menu-title')</span><br>
+        <span style="font-weight:bold">@yield('menu-title')</span><br>
         <span>@yield('menu-desc')</span>
       </div>
     </div>

@@ -13,10 +13,10 @@
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Kelola Jadwal</h1>
+<h1 class="h4 mb-2 text-gray-800">Kelola Slider</h1>
 <div class="row">
   <div class="col">
-    <a class="btn btn-primary btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addHubungan">
+    <a class="btn btn-primary btn-icon-split btn-sm float-right" href="#" data-toggle="modal" data-target="#addHubungan">
        <span class="icon text-white-50">
         <i class="fas fa-file-download"></i>
        </span>

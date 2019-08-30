@@ -12,6 +12,8 @@
 <img src="{{asset('img/Picture1.png')}}" alt="" height="70">
 @endsection
 
+@section('active-status','active')
+
 @section('menu-title','Status')
 @section('menu-desc','Status anak asuh dapat dilihat di menu ini.
 Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah melakukan coaching.
@@ -21,24 +23,31 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
 <div class="container-fluid">
   <br>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <div class="row">
-        <div class="col-md-3 offset-md-6">
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>November</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <div class="col-sm-2 offset-sm-8 pd-bottom" >
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
+            <option>Januari</option>
+            <option>Februari</option>
+            <option>Maret</option>
+            <option>April</option>
+            <option>Mei</option>
+            <option>Juni</option>
+            <option>Juli</option>
+            <option>Agustus</option>
+            <option>September</option>
+            <option>Oktober</option>
+            <option selected>November</option>
+            <option>Desember</option>
           </select>
         </div>
-        <div class="col-md-3 ">
-          <select class="form-control" id="exampleFormControlSelect1">
+        <div class="col-sm-2 ">
+          <select class="form-control btn-sm" id="exampleFormControlSelect1">
             <option>2019</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option>2020</option>
+            <option>2025</option>
+            <option>2026</option>
+            <option>2027</option>
           </select>
         </div>
 
@@ -77,10 +86,10 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
         <tbody>
           <tr>
             <td>1</td>
-            <td> <img src="{{ asset('img/Picture4.png')}}" alt="" class="img-slider-table"></td>
-            <td>Badu</td>
-            <td>10 November 2019 </td>
-            <td>0812131213</td>
+            <td class="td-img"> <img src="{{ asset('img/Picture4.png')}}" alt="" class="img-slider-table"></td>
+            <td data-th="Anak Asuh  &#xa;">Badu</td>
+            <td data-th="Jadwal Coaching  &#xa;">10 November 2019 </td>
+            <td data-th="No Handphone/WhatsApp &#xa;">0812131213</td>
             <td>
               <a class="btn btn-google  btn-sm" href="#">File</a>
               <a class="btn btn-sm btn-warning" href="#" data-toggle="modal" data-target="#exampleModalCenter">Update Image</a>
@@ -99,15 +108,6 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
 @endsection
 
 @section('javascript')
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
