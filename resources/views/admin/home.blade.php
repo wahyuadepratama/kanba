@@ -18,7 +18,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
           </div>
           <div class="col-auto">
-              <img class="img-profile" src="{{ asset('img/Picture1.png')}}" width="40">
+              <i class="fas fa-handshake fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
           </div>
           <div class="col-auto">
-              <img class="img-profile" src="{{ asset('img/Picture1.png')}}" width="40">
+              <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
           </div>
           <div class="col-auto">
-            <img class="img-profile" src="{{ asset('img/Picture2.png')}}" width="40">
+            <i class="fas fa-fw fa-tachometer-alt fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -64,11 +64,11 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Kelola SLider</div>
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Kelola Slider</div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
           </div>
           <div class="col-auto">
-            <img class="img-profile" src="{{ asset('img/Picture2.png')}}" width="40">
+            <i class="fas fa-images fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
           </div>
           <div class="col-auto">
-            <img class="img-profile" src="{{ asset('img/Picture2.png')}}" width="40">
+            <i class="fas fa-user-tie fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
           </div>
           <div class="col-auto">
-            <img class="img-profile" src="{{ asset('img/Picture2.png')}}" width="40">
+            <i class="fas fa-users fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -123,11 +123,5 @@
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
 
 @endsection
