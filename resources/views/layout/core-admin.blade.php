@@ -44,17 +44,17 @@
       <!-- Nav Item - Dashboard -->
       <li class="nav-item @yield('active-home')">
         <a class="nav-link" href="/">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-home"></i>
           <span>Home</span></a>
       </li>
       <li class="nav-item @yield('active-hubungan')">
         <a class="nav-link" href="/kelola-hubungan">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-handshake"></i>
           <span>Kelola Hubungan</span></a>
       </li>
       <li class="nav-item @yield('active-jadwal')">
         <a class="nav-link" href="/kelola-jadwal">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-calendar-day"></i>
           <span>Kelola Jadwal</span></a>
       </li>
       <li class="nav-item @yield('active-performa')">
@@ -64,17 +64,17 @@
       </li>
       <li class="nav-item @yield('active-slider')">
         <a class="nav-link" href="/kelola-slider">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-images"></i>
           <span>Kelola Slider</span></a>
       </li>
       <li class="nav-item @yield('active-bapak')">
         <a class="nav-link" href="/bapak-asuh">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-user-tie"></i>
           <span>Data Bapak Asuh</span></a>
       </li>
       <li class="nav-item @yield('active-anak')">
         <a class="nav-link" href="/anak-asuh">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-users"></i>
           <span>Data Anak Asuh</span></a>
       </li>
 
@@ -100,16 +100,16 @@
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
           <!-- Sidebar Toggle (Topbar) -->
-          <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
-          </button> -->
-          <style media="screen">
+          </button>
+          <!-- <style media="screen">
             .topbar #sidebarToggleTop{
               width: 5rem;
               height: unset;
             }
           </style>
-          <img class="img-profile d-md-none" src="{{ asset('img/kanba.png')}}" width="80" id="sidebarToggleTop">
+          <img class="img-profile d-md-none" src="{{ asset('img/kanba.png')}}" width="80" id="sidebarToggleTop"> -->
           <!-- Topbar Search -->
           <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
@@ -123,31 +123,11 @@
           </form> -->
 
           <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <!-- <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a> -->
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
+          <ul class="navbar-nav ml-auto" id="user-icon">
 
 
             <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
+            <li class="nav-item dropdown no-arrow" >
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
                   <img class="img-profile rounded-circle" src="{{ asset('img/man-user.svg') }}">
@@ -174,22 +154,20 @@
                 </a>
               </div>
             </li>
-
+          </ul>
+          <ul class="navbar-nav">
             <style media="screen">
               .logo-icon{
                 width: auto !important;
               }
             </style>
-            <div class="topbar-divider d-none d-sm-block"></div>
 
-            <!-- buma icon -->
+            <div class="topbar-divider d-block-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile logo-icon" src="{{ asset('img/buma.jpg')}}">
               </a>
             </li>
-
-
           </ul>
 
         </nav>

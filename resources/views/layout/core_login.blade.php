@@ -20,7 +20,7 @@
 
     @yield('css')
   </head>
-  <body>
+  <body style="overflow:hidden;">
     <!-- Image and text -->
     <!-- <nav class="navbar navbar-light bg-light">
 
