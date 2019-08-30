@@ -54,6 +54,10 @@ img.img-slider-table{
   padding: 15px;
   color:black;
   font-weight: bold;
+  border-radius: 10px;
+}
+.active{
+  font-weight: bold;
 }
 .box-menu div .area-bm-2 p{
   font-size: 15px;
@@ -94,6 +98,7 @@ img.img-slider-table{
   background: #fbc727;
   border-radius: 20px;
   padding: 20px;
+  color: black;
   grid-template-columns: 1fr auto;
   grid-auto-columns: auto;
   grid-template-areas:
@@ -127,4 +132,36 @@ img.img-slider-table{
 }
 .performa-form{
   grid-area: performa-form
+}
+.login-background{
+  background-image: url('../img/Picture4.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.box-login{
+ background-color:  #10a309 !important;
+ width: 40vw;
+ border-radius: 0px 100% 100% 0px;
+ position: relative;
+ padding-left: 30px;
+}
+.form-login-container{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.title-apps{
+  color: white;
+}
+.title-apps h5:nth-child(3){
+  font-weight: bolder;
+}
+.btn-yellow{
+  background-color: #fbc727 !important;
+  color: white;
+}
+.display-none{
+  display: none;
 }

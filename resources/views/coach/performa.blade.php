@@ -13,6 +13,8 @@
 <img src="{{asset('img/Picture2.png')}}" alt="" height="70">
 @endsection
 
+@section('active-performa','active')
+
 @section('menu-title','Performa')
 @section('menu-desc','Lihat performa dan ranking coach anda.')
 
@@ -55,15 +57,15 @@
                     </tr>
                   </tfoot> -->
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Wahyu Adee Pratama</td>
-                      <td>80% </td>
+                    <tr class="tr-ranking" style="border:1px solid black;">
+                      <td class="td-ranking" data-th="#">1</td>
+                      <td class="td-ranking">Wahyu Adee Pratama</td>
+                      <td class="td-ranking float-right">80% </td>
                     </tr>
                     <tr>
-                      <td>2</td>
-                      <td>Yolanda Parawita</td>
-                      <td>70% </td>
+                      <td class="td-ranking" data-th="#">2</td>
+                      <td class="td-ranking">Yolanda Parawita</td>
+                      <td class="td-ranking float-right">80% </td>
                     </tr>
 
                   </tbody>
@@ -122,15 +124,6 @@
 @endsection
 
 @section('javascript')
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
 <script src="vendor/chart.js/Chart.min.js"></script>
@@ -138,13 +131,17 @@
 <!-- Page level custom scripts -->
 <script src="js/demo/chart-area-demo.js"></script>
 
+<!-- Page level plugins -->
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
 <!-- Page level custom scripts -->
 <script src="js/demo/datatables-demo.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
       $("#myRanking").hide();
-    $("#performa-click").change(function(){
+      $("#performa-click").change(function(){
         var selected = $(this). children("option:selected"). val();
         console.log(selected);
         switch (selected) {
