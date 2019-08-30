@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -32,8 +33,45 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request){
+
+      if ($request->password == null) {
+        $nik = User::where('nik', $request->nik)->first();
+        if ($nik) {
+          if ($nik->role_id == 2) {
+            session(['login' => $nik]);
+            return redirect('/coach/home');
+          }else{
+            return back()->with('error', 'Anda tidak terdaftar sebagai bapak asuh!');
+          }
+        }else{
+          return back()->with('error', 'NIK tidak terdaftar!');
+        }
+      }else{
+        $credentials = $request->only('nik', 'password');
+        if (\Auth::guard('web')->attempt($credentials)) {
+          $nik = User::where('nik', $request->nik)->first();
+          switch ($nik->role_id) {
+            case 1:
+              session(['login' => $nik]);
+              return redirect('/admin/home');
+              break;
+            case 2:
+              return back()->with('error', 'Anda tidak terdaftar sebagai admin!');
+              break;
+          }
+        }else{
+          return back()->with('error', 'NIK atau Password yang Anda Masukan Salah!');
+        }
+      }
+    }
+    public function logout(Request $request){
+      session()->flush();
+      // session(['login' => null]);
+      return back();
     }
 }

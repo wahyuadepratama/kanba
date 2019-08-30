@@ -44,9 +44,15 @@ Route::get('/coach-status', function () {
 Route::get('/coach-performa', function () {
     return view('coach.performa');
 });
+
 Route::get('/admin-login', function () {
     return view('admin.login');
 });
 Route::get('/coach-login', function () {
     return view('coach.login');
 });
+
+// Route::get('/login', function () { return redirect('/login/user/'); });
+// Route::post('/login',  'Auth\LoginController@login')->name('login');
+// Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
