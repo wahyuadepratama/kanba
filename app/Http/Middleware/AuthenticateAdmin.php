@@ -19,7 +19,7 @@ class AuthenticateAdmin
          if (session('login')->role_id == 1) {
            return $next($request);
          }else{
-           return redirect('/login/admin');
+           return redirect('/admin-login');
          }
        }
      }

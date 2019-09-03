@@ -12,13 +12,13 @@
   <title>Admin - @yield('title')</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/custom.css')}}">
-  <link rel="stylesheet" href="{{ asset('css/responsive.css')}}">
+  <link rel="stylesheet" href="{{ asset('css/responsive.css')}}">  
 
   @yield('css')
 
@@ -43,48 +43,47 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item @yield('active-home')">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="/admin">
           <i class="fas fa-home"></i>
           <span>Home</span></a>
       </li>
       <li class="nav-item @yield('active-hubungan')">
-        <a class="nav-link" href="/kelola-hubungan">
+        <a class="nav-link" href="/admin/kelola-hubungan">
           <i class="fas fa-handshake"></i>
           <span>Kelola Hubungan</span></a>
       </li>
       <li class="nav-item @yield('active-jadwal')">
-        <a class="nav-link" href="/kelola-jadwal">
+        <a class="nav-link" href="/admin/kelola-jadwal">
           <i class="fas fa-calendar-day"></i>
           <span>Kelola Jadwal</span></a>
       </li>
       <li class="nav-item @yield('active-performa')">
-        <a class="nav-link" href="/performa">
+        <a class="nav-link" href="/admin/performa">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Performa</span></a>
       </li>
       <li class="nav-item @yield('active-slider')">
-        <a class="nav-link" href="/kelola-slider">
+        <a class="nav-link" href="/admin/kelola-slider">
           <i class="fas fa-images"></i>
           <span>Kelola Slider</span></a>
       </li>
       <li class="nav-item @yield('active-bapak')">
-        <a class="nav-link" href="/bapak-asuh">
+        <a class="nav-link" href="/admin/bapak-asuh">
           <i class="fas fa-user-tie"></i>
           <span>Data Bapak Asuh</span></a>
       </li>
       <li class="nav-item @yield('active-anak')">
-        <a class="nav-link" href="/anak-asuh">
+        <a class="nav-link" href="/admin/anak-asuh">
           <i class="fas fa-users"></i>
           <span>Data Anak Asuh</span></a>
       </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-
       </div>
 
     </ul>
@@ -103,24 +102,6 @@
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-          <!-- <style media="screen">
-            .topbar #sidebarToggleTop{
-              width: 5rem;
-              height: unset;
-            }
-          </style>
-          <img class="img-profile d-md-none" src="{{ asset('img/kanba.png')}}" width="80" id="sidebarToggleTop"> -->
-          <!-- Topbar Search -->
-          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form> -->
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto" id="user-icon">
@@ -129,29 +110,22 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow" >
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ session('login')->name }}</span>
                   <img class="img-profile rounded-circle" src="{{ asset('img/man-user.svg') }}">
-
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
+                  {{ session('login')->name }}
                 </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
               </div>
             </li>
           </ul>
@@ -176,13 +150,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-          </div> -->
-
-          @yield('content')
+        @yield('content')
 
 
         </div>
@@ -195,7 +163,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; <a href="https://coachingbuma.com">Coaching Buma</a> 2019</span>
           </div>
         </div>
       </footer>
@@ -211,25 +179,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   @yield('javascript')
 

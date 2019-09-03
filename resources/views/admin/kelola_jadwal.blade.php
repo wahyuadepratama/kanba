@@ -1,4 +1,4 @@
-@extends('layout.core-admin')
+@extends('layout.core_admin')
 
 @section('title','Kelola Jadwal')
 
@@ -6,14 +6,14 @@
 
 @section('css')
   <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <link href="vendor/taginputs/tagsinput.css" rel="stylesheet">
+  <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('vendor/taginputs/tagsinput.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h4 mb-2 text-gray-800">Kelola Slider</h1>
+<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-calendar-day"></i> &nbsp; Kelola Jadwal</h1>
 <div class="row">
   <div class="col">
     <a class="btn btn-primary btn-icon-split btn-sm float-right" href="#" data-toggle="modal" data-target="#addHubungan">
@@ -58,7 +58,7 @@
           <tr>
             <th>No</th>
             <th>Nama Bapak Asuh</th>
-            <th>Anak Asuh dan jadwal bulan ini</th>
+            <th>Anak Asuh</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -91,29 +91,27 @@
 
 @section('javascript')
 
-@include('admin.modal.add_hubungan')
 @include('admin.modal.edit_hubungan')
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/datatables-demo.js"></script>
-<script src="vendor/taginputs/tagsinput.js"></script>
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+<script src="{{ asset('vendor/taginputs/tagsinput.js') }}"></script>
 
-<script type="text/javascript">
-  $('#datepicker').datepicker();
-</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 
 @endsection
