@@ -1,8 +1,8 @@
 @extends('layout.core_admin')
 
-@section('title','Data Bapak Asuh')
+@section('title','Data Anak Asuh')
 
-@section('active-bapak','active')
+@section('active-anak','active')
 
 @section('css')
   <!-- Custom styles for this page -->
@@ -12,47 +12,43 @@
 
 @section('content')
 
-@if (session('success'))
-<small><div class="alert alert-success"> {{ session('success') }} </div></small>
-@endif
-
 <!-- Page Heading -->
-<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-user-tie"></i> &nbsp; Data Bapak Asuh</h1>
+<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-users"></i>&nbsp; Data Anak Asuh</h1>
 <div class="row">
   <div class="col">
-    <a class="btn btn-primary btn-sm btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addBapakAsuh">
+    <a class="btn btn-primary btn-sm btn-icon-split float-right" href="#" data-toggle="modal" data-target="#addAnakAsuh">
        <span class="icon text-white-50">
          <i class="fas fa-plus"></i>
        </span>
-       <span class="text">Bapak Asuh</span>
+       <span class="text">Anak Asuh</span>
      </a>
   </div>
 </div>
 <br>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
-
+  <!-- <div class="card-header py-3">
+    <button type="button" name="button">Load All Data</button>
+  </div> -->
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
-            <th>Nama Bapak Asuh</th>
+            <th>Nama Anak Asuh</th>
             <th>NIK</th>
-            <th>No WhatsApp</th>
             <th>Bergabung Sejak</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody id="tableCoach">
           @php $no=1 @endphp
-          @forelse($coach as $c)
+          @forelse($trainee as $c)
           <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $c->name }}</td>
             <td>{{ $c->nik }}</td>
-            <td>{{ $c->phone }}</td>
             <td>{{ \Carbon\Carbon::parse($c->created_at)->diffForHumans() }}</td>
             <td>
               <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $c->nik }}', '{{ $c->name }}')"><i class="fas fa-trash"></i> Hapus</a>
@@ -70,7 +66,7 @@
 
 @section('javascript')
 
-@include('admin.modal.add_bapak_asuh')
+@include('admin.modal.add_anak_asuh')
 
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
@@ -95,18 +91,17 @@
 
 <script type="text/javascript">
 
-  function storeCoach() {
+  function storeTrainee() {
     var name = $('#name').val();
     var nik = $('#nik').val();
     var phone = $('#phone').val();
     var password = $('#password').val();
     $('#name').val('');
     $('#nik').val('');
-    $('#phone').val('');
     $('#password').val('');
 
     $.ajax({ /* THEN THE AJAX CALL */
-      url: "/admin/bapak-asuh/store",
+      url: "/admin/anak-asuh/store",
       method : "POST",
       data:{'name': name, 'password': password, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
       async : true,
@@ -136,14 +131,14 @@
     })
     .then((willDelete) => {
       if (willDelete) {
-        destroyCoach(nik);
+        destroyTrainee(nik);
       }
     });
   }
 
-  function destroyCoach(nik) {
+  function destroyTrainee(nik) {
     $.ajax({ /* THEN THE AJAX CALL */
-      url: "/admin/bapak-asuh/destroy/"+ nik,
+      url: "/admin/anak-asuh/destroy/"+ nik,
       method : "GET",
       async : true,
       dataType : 'text',

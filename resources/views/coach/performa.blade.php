@@ -1,5 +1,7 @@
 @extends('coach.parts.coach_page')
 
+@section('title','Performa')
+
 @section('css')
 <!-- Custom styles for this page -->
 <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">

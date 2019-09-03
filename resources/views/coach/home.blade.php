@@ -2,6 +2,8 @@
 
 @section('title','Home')
 
+@section('coach','active')
+
 @section('content')
 
 <div class="container-fluid">
@@ -13,13 +15,13 @@
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="d-block w-100" src="{{asset('img/Picture4.png')}}" alt="First slide">
+        <img class="d-block w-100" src="{{asset('img/slider1.jpg')}}" alt="First slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="{{asset('img/Picture4.png')}}" alt="First slide">
+        <img class="d-block w-100" src="{{asset('img/slider2.jpg')}}" alt="First slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="{{asset('img/Picture4.png')}}" alt="First slide">
+        <img class="d-block w-100" src="{{asset('img/slider3.jpg')}}" alt="First slide">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -36,7 +38,7 @@
 <div class="container home-coach">
   <br>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" onclick="location.href='{{ url('coach-schedule') }}'">
       <div class="box-menu">
         <div class="grid-box-menu">
           <div class="area-bm-1">
@@ -44,13 +46,12 @@
           </div>
           <div class="area-bm-2">
             <span>Buat Jadwal</span>
-            <p>Buat jadwal agar coaching anda lebih mudah
-</p>
+            <p>Buat jadwal agar coaching anda lebih mudah</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" onclick="location.href='{{ url('coach-status') }}'">
       <div class="box-menu">
         <div class="grid-box-menu">
           <div class="area-bm-1">
@@ -63,7 +64,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" onclick="location.href='{{ url('coach-performa') }}'">
       <div class="box-menu">
         <div class="grid-box-menu">
           <div class="area-bm-1">

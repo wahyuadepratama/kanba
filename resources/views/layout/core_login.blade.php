@@ -59,13 +59,17 @@
             <h5>Mempermudah Coaching Anda</h5>
           </div>
           <br>
-          <form>
+          <form action="{{ url('login') }}" method="post">
+            @csrf
             <div class="form-group">
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="NIK">
+              <input type="text" name="nik" class="form-control" aria-describedby="emailHelp" placeholder="NIK" value="{{ old('nik') }}">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control @yield('display-password')" id="exampleInputPassword1" placeholder="Password">
+              <input type="password" name="password" class="form-control @yield('display-password')" placeholder="Password">
             </div>
+            @if (session('error'))
+            <small><div class="alert alert-danger"> {{ session('error') }} </div></small>
+            @endif
             <center><button type="submit" class="btn btn-yellow form-control">Submit</button></center>
           </form>
         </div>

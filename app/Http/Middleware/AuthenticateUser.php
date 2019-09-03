@@ -19,7 +19,7 @@ class AuthenticateUser
          if (session('login')->role_id == 2) {
            return $next($request);
          }else{
-           return redirect('/login/user');
+           return redirect('/coach-login');
          }
        }
      }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -15,7 +15,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $primary = 'nik';
+         
+    protected $primaryKey = 'nik';
     public $incrementing = false;
     protected $fillable = [
         'nik','password','role_id','name','phone'
@@ -29,4 +30,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function coachTrainee(){
+      return $this->hasMany('App\Models\CoachTrainee');
+    }
 }

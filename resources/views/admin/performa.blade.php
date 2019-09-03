@@ -1,4 +1,4 @@
-@extends('layout.core-admin')
+@extends('layout.core_admin')
 
 @section('title','Performa')
 

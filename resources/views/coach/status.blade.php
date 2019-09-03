@@ -1,9 +1,11 @@
 @extends('coach.parts.coach_page')
 
+@section('title','Status')
+
 @section('css')
 <!-- Custom styles for this page -->
-<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<link href="vendor/taginputs/tagsinput.css" rel="stylesheet">
+<link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<link href="{{ asset('vendor/taginputs/tagsinput.css') }}" rel="stylesheet">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
 @endsection
@@ -20,37 +22,57 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
 ')
 
 @section('content')
+
 <div class="container-fluid">
   <br>
   <div class="row">
+
+    @if (session('success'))
+    <small><div class="alert alert-success"> {{ session('success') }} </div></small>
+    @endif
+
+    @if ($errors->any())
+    <br><small>
+      <div class="alert alert-danger">
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </div>
+    </small>
+    @endif
+
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-2 offset-sm-8 pd-bottom" >
-          <select class="form-control btn-sm" id="exampleFormControlSelect1">
-            <option>Januari</option>
-            <option>Februari</option>
-            <option>Maret</option>
-            <option>April</option>
-            <option>Mei</option>
-            <option>Juni</option>
-            <option>Juli</option>
-            <option>Agustus</option>
-            <option>September</option>
-            <option>Oktober</option>
-            <option selected>November</option>
-            <option>Desember</option>
-          </select>
-        </div>
-        <div class="col-sm-2 ">
-          <select class="form-control btn-sm" id="exampleFormControlSelect1">
-            <option>2019</option>
-            <option>2020</option>
-            <option>2025</option>
-            <option>2026</option>
-            <option>2027</option>
-          </select>
-        </div>
+        <div class="col-md-6 pd-bottom"></div>
+        <div class="col-md-6 ">
+          <div class="row">
+            <div class="col-md-3 offset-md-6 pd-bottom">
+              <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
+                <option value="1">Januari</option>
+                <option value="2">Febuari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-control btn-sm" id="year" onchange="changeYearMonth()">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+              </select>
+            </div>
 
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -70,32 +92,58 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
             <th>Foto Coaching</th>
             <th>Anak Asuh</th>
             <th>Jadwal Coaching</th>
-            <th>No WhatsApp</th>
-            <th>Action</th>
+            <th>Actual Coaching</th>
+            <th class="text-center">Upload Foto</th>
           </tr>
         </thead>
-        <!-- <tfoot>
-          <tr>
-            <th>No</th>
-            <th>Nama Bapak Asuh</th>
-            <th>Anak Asuh</th>
-            <th>No WhatsApp</th>
-            <th>Action</th>
-          </tr>
-        </tfoot> -->
         <tbody>
-          <tr>
-            <td>1</td>
-            <td class="td-img"> <img src="{{ asset('img/Picture4.png')}}" alt="" class="img-slider-table"></td>
-            <td data-th="Anak Asuh  &#xa;">Badu</td>
-            <td data-th="Jadwal Coaching  &#xa;">10 November 2019 </td>
-            <td data-th="No Handphone/WhatsApp &#xa;">0812131213</td>
-            <td>
-              <a class="btn btn-google  btn-sm" href="#">File</a>
-              <a class="btn btn-sm btn-warning" href="#" data-toggle="modal" data-target="#exampleModalCenter">Update Image</a>
-          </td>
-          </tr>
-
+          @php $no=1 @endphp
+          @forelse($trainee as $t)
+            <tr>
+              <td>{{ $no++ }}</td>
+              <td class="td-img"> <img src="{{ asset('coaching/'. $t->photo)}}" alt="" class="mx-auto d-block img-fluid img-thumbnail" width="250"></td>
+              <td data-th="Anak Asuh  &#xa;">{{ $t->name }}</td>
+              <td data-th="Jadwal Coaching  &#xa;">{{ $t->datetime }}</td>
+              <td data-th="Actual Coaching &#xa;">
+                @if($t->status == 'ongoing')
+                  -
+                @else
+                  <p class="text text-success text-weight-bold">{{ $t->actual }}</p>
+                @endif
+              </td>
+              <td>
+                @if($t->status == 'ongoing')
+                  <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <button type="submit" class="input-group-text">Upload</button>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="file"
+                          aria-describedby="inputGroupFileAddon01" required accept="image/*" capture>
+                        <label class="custom-file-label" for="inputGroupFile01"></label>
+                      </div>
+                    </div><br>
+                    <div class="form-group">
+                      <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                         <input type="text" id="jadwal" class="form-control datetimepicker-input" data-target="#datetimepicker4"
+                         data-toggle="datetimepicker" placeholder="Actual Coaching" required name="schedule"/>
+                         <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                         </div>
+                       </div>
+                     </div>
+                    <input type="hidden" name="id" value="{{ $t->id }}">
+                  </form>
+                @else
+                  <p style="text-align:center">Sudah Diupload !</p>
+                @endif
+                <hr class="d-md-none"><br>
+              </td>
+            </tr>
+          @empty
+          @endforelse
         </tbody>
       </table>
     </div>
@@ -109,27 +157,30 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
 
 @section('javascript')
 
+<!-- Bootstrap core JavaScript-->
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <!-- Page level plugins -->
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/datatables-demo.js"></script>
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+<script src="{{ asset('vendor/taginputs/tagsinput.js') }}"></script>
 
-<script src="vendor/taginputs/tagsinput.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- datetime picker -->
 <script src="https://momentjs.com/downloads/moment-with-locales.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 <script type="text/javascript">
-      $(function () {
-          $('#datetimepicker4').datetimepicker({
-              format: 'L'
-          });
-      });
+    $(function () {
+        $('#datetimepicker4').datetimepicker({
+          format: 'L',
+          locale:'id'
+        });
+    });
   </script>
-
-
 
 @endsection

@@ -11,18 +11,21 @@
       <form class="" action="index.html" method="post">
       <div class="modal-body">
           <div class="form-group">
-            <input class="form-control" id="exampleFormControlSelect1" placeholder="Nama"/>
+            <input class="form-control" type="text" required id="name" placeholder="Nama"/>
           </div>
           <div class="form-group">
-            <input class="form-control" id="exampleFormControlSelect1" placeholder="NIK"/>
+            <input class="form-control" type="text" required id="nik" placeholder="NIK"/>
           </div>
           <div class="form-group">
-            <input class="form-control" id="exampleFormControlSelect1" placeholder="No Handphone / WhatsApp"/>
+            <input class="form-control" type="number" required id="phone" placeholder="No Handphone / WhatsApp"/>
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" required id="password" placeholder="Password"/>
           </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Tambahkan</button>
+        <button type="button" class="btn btn-primary" onclick="storeCoach()" data-dismiss="modal">Tambahkan</button>
       </div>
     </form>
     </div>
