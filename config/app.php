@@ -228,4 +228,7 @@ return [
 
     ],
 
+    'url_send_message_whatsapp' => 'https://api.wassenger.com/v1/messages',
+    'api_send_message_whatsapp' => '3ce0d68245ac1b3e177ed5c903138fa968ee7085f7a89947ffa452339896f144b9bc7ca7e829f700',
+
 ];

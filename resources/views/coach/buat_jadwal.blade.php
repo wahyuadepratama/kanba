@@ -6,8 +6,9 @@
 <!-- Custom styles for this page -->
 <link href="{{ url('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="{{ url('vendor/taginputs/tagsinput.css') }}" rel="stylesheet">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" /> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @endsection
 
 @section('image-menu')
@@ -56,6 +57,7 @@
   </div>
   <br>
 <!-- DataTales Example -->
+
 <div class="card shadow mb-4">
   <!-- <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">
@@ -97,7 +99,7 @@
                   </div>
                 @endif
               </td>
-              <td class="text-center">
+              <td style="position:relative !important">
                 @if($data == null)
                   <a class="btn btn-primary btn-sm btn-icon-split" href="#" data-toggle="modal" data-target="#addJadwal"
                   onclick="addSchedule('{{ $d->id }}')">
@@ -143,14 +145,10 @@
 
 <!-- datetime picker -->
 <script src="https://momentjs.com/downloads/moment-with-locales.js" charset="utf-8"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script> -->
+
   <script type="text/javascript">
-      $(function () {
-          $('#datetimepicker4').datetimepicker({
-            format: 'L',
-            locale:'id'
-          });
-      });
 
       var d = new Date();
       $('#month').val(d.getMonth()+1);
@@ -162,12 +160,16 @@
 
         var months = ["","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         $('#addJadwalTitle').html('Buat jadwal bulan '+months[month]);
-        $('#jadwal').val('');
+        $('#jadwals').val('');
         $('#addButton').attr('onclick', "storeUpdate('"+ id +"', '"+ month +"', '"+ year +"')")
       }
 
       function storeUpdate(id, month, year) {
-        var sch = $('#jadwal').val();
+        var sch = $('#jadwals').val();
+        var date = new Date($('#jadwals').val());
+        day = date.getDate();
+        month = date.getMonth() + 1;
+
         if (sch == "") {
           swal({
             icon: "warning",
@@ -176,25 +178,36 @@
             timer: 2000
           });
         }else{
-          $.ajax({ /* THEN THE AJAX CALL */
-            url: '/coach-schedule/store',
-            method : "POST",
-            data:{'id': id, 'sch': sch, 'month': month, 'year': year, _token: '{{csrf_token()}}'},
-            async : true,
-            dataType : 'text',
-            success: function(data){
-              $('#dataTable').dataTable().fnClearTable();
-              $('#dataTable').DataTable().destroy();
-              $('#dataTable').find('tbody').append(data);
-              $('#dataTable').DataTable().draw();
-              swal({
-                icon: "success",
-                text: "Jadwal baru berhasil ditambahkan!",
-                buttons: false,
-                timer: 2000
-              });
-            }
-          });
+
+          if (month != $('#month').val()) {
+            swal({
+              icon: "warning",
+              text: "Pastikan anda memilih bulan yang sesuai !",
+              buttons: false,
+              timer: 2000
+            });
+          }else{
+            $.ajax({ /* THEN THE AJAX CALL */
+              url: '/coach-schedule/store',
+              method : "POST",
+              data:{'id': id, 'sch': sch, 'month': month, 'year': year, _token: '{{csrf_token()}}'},
+              async : true,
+              dataType : 'text',
+              success: function(data){
+                $('#dataTable').dataTable().fnClearTable();
+                $('#dataTable').DataTable().destroy();
+                $('#dataTable').find('tbody').append(data);
+                $('#dataTable').DataTable().draw();
+                swal({
+                  icon: "success",
+                  text: "Jadwal baru berhasil ditambahkan!",
+                  buttons: false,
+                  timer: 2000
+                });
+              }
+            });
+          }
+
         }
       }
 
@@ -222,7 +235,7 @@
           data:{'month': month, 'year': year, _token: '{{csrf_token()}}'},
           async : true,
           dataType : 'text',
-          success: function(data){
+          success: function(data){console.log(data);
             $('#dataTable').dataTable().fnClearTable();
             $('#dataTable').DataTable().destroy();
             $('#dataTable').find('tbody').append(data);
@@ -260,6 +273,7 @@
           }
         });
       }
+
   </script>
 
 

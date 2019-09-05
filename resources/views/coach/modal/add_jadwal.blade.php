@@ -11,15 +11,7 @@
       <form class="" action="index.html" method="post" id="scheduleForm">
       <div class="modal-body">
         <div class="form-group">
-          <div class="form-group">
-            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-               <input type="text" id="jadwal" class="form-control datetimepicker-input" data-target="#datetimepicker4"
-               data-toggle="datetimepicker" placeholder="Tanggal/Bulan/Tahun" required name="schedule"/>
-               <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-               </div>
-             </div>
-           </div>
+          <input id="jadwals" placeholder="Actual Coaching" class="form-control" type="date" required name="schedule">
         </div>
       </div>
       <div class="modal-footer">

@@ -11,7 +11,8 @@ class CoachTraineeController extends Controller
 {
     public function index(){
       $coach = User::where('role_id', 2)->orderBy('name', 'asc')->get();
-      return view('admin.kelola_hubungan')->with(compact("coach"));
+      $relationship = CoachTrainee::all();
+      return view('admin.kelola_hubungan')->with(compact("coach", "relationship"));
     }
 
     public function destroyTrainee($id){

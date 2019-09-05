@@ -46,11 +46,19 @@
               <td>{{ $d->phone }}</td>
               <td>
                 <ul>
-                  @forelse(\App\Models\CoachTrainee::where('coach_nik', $d->nik)->get(); as $trainee)
-                  <li>{{ $trainee->trainee->name }}</li>
+                  @php $find = false @endphp
+
+                  @forelse($relationship as $r)
+                    @if($r->coach_nik == $d->nik)
+                      <li>{{ $r->trainee->name }}</li>
+                      @php $find = true @endphp
+                    @endif
                   @empty
-                  <p>Belum ada anak asuh !</p>
                   @endforelse
+
+                  @if($find == false)
+                    <p>Belum ada anak asuh !</p>
+                  @endif
                 </ul>
               </td>
               <td>
