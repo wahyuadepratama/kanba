@@ -8,6 +8,11 @@
 <link href="{{ asset('vendor/taginputs/tagsinput.css') }}" rel="stylesheet">
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+<style media="screen">
+  .custom-file-label{
+    text-align: left;
+  }
+</style>
 @endsection
 
 @section('image-menu')
@@ -114,7 +119,7 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
                       <div class="custom-file">
                         <input type="file" class="custom-file-input input-sm" id="inputGroupFile01" name="file"
                           aria-describedby="inputGroupFileAddon01" required accept="image/*" capture>
-                        <label class="custom-file-label" for="inputGroupFile01"></label>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                       </div>
                     </div><br>
                     <div class="form-group">
@@ -154,6 +159,10 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 <script src="{{ asset('vendor/taginputs/tagsinput.js') }}"></script>
+
+<!-- mdb -->
+<script src="{{ asset('vendor/mdb/js/mdb.min.js') }}"></script>
+<script src="{{ asset('vendor/mdb/js/modules/bs-custom-file-input.js') }}"></script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
