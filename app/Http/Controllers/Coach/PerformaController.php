@@ -28,7 +28,11 @@ class PerformaController extends Controller
 
   public function getAllData()
   {
-    $sch = Schedule::whereYear('datetime', date('Y'))->get();
+    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->where('coach_trainees.coach_nik', '=', session('login')->nik)
+                  ->whereYear('schedules.datetime', date('Y'))
+                  ->select('schedules.*')
+                  ->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     $data = [0,0,0,0,0,0,0,0,0,0,0,0];
     $data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -81,7 +85,7 @@ class PerformaController extends Controller
         $archivement = 0;
 
       if ($plan != 0 && $actual != 0)
-        $compliance = (($actual/$plan) * 100)/12;
+        $compliance = $actual/$plan * 100;
       else
         $compliance = 0;
 
@@ -103,7 +107,11 @@ class PerformaController extends Controller
 
   public function getFilterYearData($year)
   {
-    $sch = Schedule::whereYear('datetime', $year)->get();
+    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->where('coach_trainees.coach_nik', '=', session('login')->nik)
+                  ->whereYear('schedules.datetime', $year)
+                  ->select('schedules.*')
+                  ->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     $data = [0,0,0,0,0,0,0,0,0,0,0,0];
     $data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -156,7 +164,7 @@ class PerformaController extends Controller
         $archivement = 0;
 
       if ($plan != 0 && $actual != 0)
-        $compliance = (($actual/$plan) * 100)/12;
+        $compliance = ($actual/$plan) * 100;
       else
         $compliance = 0;
 
@@ -178,7 +186,12 @@ class PerformaController extends Controller
 
   public function getFilterAllData($month, $year)
   {
-    $sch = Schedule::whereMonth('datetime', $month)->whereYear('datetime', $year)->get();
+    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->where('coach_trainees.coach_nik', '=', session('login')->nik)
+                  ->whereYear('schedules.datetime', $year)
+                  ->whereMonth('schedules.datetime', $month)
+                  ->select('schedules.*')
+                  ->get();
     $label = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
     $data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     $data2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];

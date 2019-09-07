@@ -11,7 +11,7 @@ class Schedule extends Model
       'id','datetime', 'actual', 'relationship_id', 'status', 'photo'
   ];
 
-  public function realationship(){
+  public function relationship(){
     return $this->belongsTo('App\Models\CoachTrainee','relationship_id');
   }
 }
