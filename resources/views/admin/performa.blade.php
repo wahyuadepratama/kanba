@@ -34,15 +34,30 @@
     </select>
   </div>
   <div class="grid-performa-3 text-center">
-    @php $no=1; $totalArchivement = 0; @endphp
+    <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
+      @php $no=1; $anakasuh=0; $terlaksana=0; @endphp
       @for ($i=0; $i < count($rank); $i++)
-      @php $totalArchivement = $totalArchivement + $rank[$i]['archivement'] @endphp
-    @endfor
-    <span class="align-middle">Achievement : {{ number_format($totalArchivement/count($rank), 1) }}%</span>
+        @php $anakasuh = $anakasuh + $rank[$i]['trainee'] @endphp
+        @php $terlaksana = $terlaksana + $rank[$i]['coaching'] @endphp
+      @endfor
+      @if($_GET && $terlaksana != 0 && $anakasuh != 0)
+        @if($_GET['month'] == 'all')
+          <span class="text">Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</span>
+        @else
+          <span class="text">Achievement : {{ number_format($terlaksana/$anakasuh * 100, 1) }}%</span>
+        @endif
+      @else
+        @if($terlaksana != 0 && $anakasuh != 0)
+        <span class="text">Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</span>
+        @else
+        <span class="text">Achievement : 0 %</span>
+        @endif
+      @endif
+    </a>
   </div>
   <div class="grid-performa-4">
     <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
-      <option value="all">Semua Bulan</option>
+      <option value="all">Semua Bulan (1 Tahun)</option>
       <option value="1">Januari</option>
       <option value="2">Febuari</option>
       <option value="3">Maret</option>
@@ -58,16 +73,45 @@
     </select>
   </div>
   <div class="grid-performa-5">
-    <a class="form-control btn btn-success btn-sm btn-icon-split" href="#">
-       <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
-     </a>
+    <select class="form-control btn-sm" id="coach" onchange="changeYearMonth()">
+      <option value="all">Semua Coach</option>
+      @foreach(\App\Models\User::where('role_id', 2)->get() as $coach)
+        <option value="{{ $coach->nik }}">{{ $coach->name }} ({{ $coach->nik }})</option>
+      @endforeach
+    </select>
+    @if($_GET)
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/performa/export?month='. $_GET['month']. '&year='. $_GET['year']) }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+    @else
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/performa/export?month=all&year=all') }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+    @endif
   </div>
   <div class="grid-performa-6 text-center">
-    @php $no=1; $totalCompliance = 0; @endphp
-      @for ($i=0; $i < count($rank); $i++)
-      @php $totalCompliance = $totalCompliance + $rank[$i]['compliance'] @endphp
+    <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
+    @php $no=1; $actual=0; $plan=0; @endphp
+    @for ($i=0; $i < count($rank); $i++)
+      @php $actual = $actual + $rank[$i]['actual'] @endphp
+      @php $plan = $plan + $rank[$i]['plan'] @endphp
     @endfor
-    <span class="align-middle">Compliance : {{ number_format($totalCompliance/count($rank), 1) }}%</span>
+    @if($_GET && $actual != 0 && $plan != 0)
+      @if($_GET['month'] == 'all')
+        <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
+      @else
+        <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
+      @endif
+    @else
+      @if($actual != 0 && $plan != 0)
+      <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
+      @else
+      <span class="text">Compliance : 0 %</span>
+      @endif
+    @endif
+    </a>
   </div>
 
 </div>
@@ -267,6 +311,7 @@
         $('#month').val("all");
     @else
         $('#month').val('{{ $_GET['month'] }}');
+        $('#coach').val('{{ $_GET['coach'] }}');
     @endif
 
     @if($_GET['year'] == null)
@@ -287,17 +332,25 @@
   $(document).ready(function(){
       $("#myRanking").hide();
       $("#compliance").hide();
+      $('#export').hide();
+      var type = $('#export').attr('href');
+
       $("#type").change(function(){
 
         var selected = $(this). children("option:selected"). val();
         switch (selected) {
           case "ranking":
               $(".chart-area").hide();
+              $('#export').show();
+              $('#export').attr('href', type + '&type=archivement');
+              $("#coach").hide();
               $("#myRanking").show();
               $("#compliance").hide();
             break;
           case "monthly":
               $(".chart-area").show();
+              $('#export').hide();
+              $("#coach").show();
               $("#myRanking").hide();
               $("#compliance").hide();
               $("#selectWeekMonth").show();
@@ -305,6 +358,9 @@
             break;
           case "compliance":
               $("#compliance").show();
+              $('#export').show();
+              $('#export').attr('href', type + '&type=compliance');
+              $("#coach").hide();
               $(".chart-area").hide();
               $("#myRanking").hide();
               $("#selectWeekMonth").show();
@@ -320,7 +376,8 @@
   function changeYearMonth() {
     var month = $('#month').val();
     var year = $('#year').val();
-    window.location.href = "/admin/performa?month="+month+"&year="+year;
+    var coach = $('#coach').val();
+    window.location.href = "/admin/performa?month="+month+"&year="+year+"&coach="+coach;
   }
 </script>
 @endsection

@@ -24,6 +24,25 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 offset-md-9">
+        <select class="form-control btn-sm" id="changeMonth()">
+          <option value="1">Januari</option>
+          <option value="2">Febuari</option>
+          <option value="3">Maret</option>
+          <option value="4">April</option>
+          <option value="5">Mei</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">Agustus</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+    </div><br>
+
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>

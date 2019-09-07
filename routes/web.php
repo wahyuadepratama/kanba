@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth','auth.admin']], function(){
   Route::post('/admin/kelola-jadwal/reminder-manual', 'Admin\ScheduleController@reminderManual');
 
   Route::get('/admin/performa', 'Admin\PerformaController@index');
+  Route::get('/admin/performa/export', 'Admin\PerformaController@export');
 
   Route::get('/admin/kelola-slider', 'Admin\SliderController@index');
   Route::post('admin/kelola-slider/update/{id}', 'Admin\SliderController@update');

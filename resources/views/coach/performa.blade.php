@@ -88,7 +88,7 @@
               </div>
               <div class="form-group">
                 <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
-                  <option value="all">Semua Bulan</option>
+                  <option value="all">Semua Bulan (1 Tahun)</option>
                   <option value="1">Januari</option>
                   <option value="2">Febuari</option>
                   <option value="3">Maret</option>
@@ -104,11 +104,20 @@
                 </select>
               </div>
               <div class="form-group" id="achievementResult">
-                @php $no=1; $totalArchivement = 0; @endphp
+                @php $no=1; $anakasuh=0; $terlaksana=0; @endphp
                 @for ($i=0; $i < count($rank); $i++)
-                  @php $totalArchivement = $totalArchivement + $rank[$i]['archivement'] @endphp
+                  @php $anakasuh = $anakasuh + $rank[$i]['trainee'] @endphp
+                  @php $terlaksana = $terlaksana + $rank[$i]['coaching'] @endphp
                 @endfor
-                <h6>Achievement : {{ number_format($totalArchivement/count($rank), 1) }}%</h6>
+                @if($_GET)
+                  @if($_GET['month'] == 'all')
+                    <h6>Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</h6>
+                  @else
+                    <h6>Achievement : {{ number_format($terlaksana/$anakasuh * 100, 1) }}%</h6>
+                  @endif
+                @else
+                  <h6>Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</h6>
+                @endif
               </div>
             </div>
             <!-- end performa form -->
