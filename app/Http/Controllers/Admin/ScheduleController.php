@@ -70,7 +70,7 @@ class ScheduleController extends Controller
 
       foreach($relationship as $r)
         if($r->coach_nik == $nik){
-          echo $r->trainee->name." : ";
+          echo '- '.$r->trainee->name." : ";
           $found = false;
           foreach($schedule as $s){
             if($s->relationship_id == $r->id){
