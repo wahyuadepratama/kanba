@@ -23,13 +23,25 @@
 
 @section('menu-title','Status')
 @section('menu-desc','Status anak asuh dapat dilihat di menu ini.
-Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah melakukan coaching.
+Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakukan coaching.
 ')
 
 @section('content')
 
 <div class="container-fluid">
   <br>
+  <div class="card shadow">
+    <div class="card-body">
+      Keterangan:
+      <ul>
+        <li>Pilih bulan dan tahun sebelum mengupload foto</li>
+        <li><b>Pastikan nama anak asuh sudah benar</b> sebelum mengupload foto </li>
+        <li><b>Pastikan foto dan jadwal actual coaching sudah benar</b> sebelum mengklik tombol <b>Upload</b></li>
+        <li><b>Foto yang sudah diupload tidak dapat dihapus maupun diubah</b></li>
+        <li>Hubungi admin jika terdapat kesalahan dalam proses upload foto dan actual coaching</li>
+      </ul>
+    </div>
+  </div><br>
   <div class="row">
     <div class="col-md-6 pd-bottom"></div>
     <div class="col-md-6 ">
@@ -112,20 +124,16 @@ Upload foto selfie Bersama anak  asuh setelah coaching sebagai bukti anda sudah 
                 @if($t->status == 'ongoing')
                   <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <button type="submit" class="input-group-text">Upload</button>
-                      </div>
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input input-sm" id="inputGroupFile01" name="file"
-                          aria-describedby="inputGroupFileAddon01" required accept="image/*" capture>
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                      </div>
-                    </div><br>
                     <div class="form-group">
+                      <input type="file" name="file" required class="btn btn-sm form-control">
+                    </div>
+                    <div class="form-group" style="padding-right: 10px; padding-left: 10px">
                       <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
                         <input placeholder="Actual Coaching" class="form-control input-sm" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" required name="schedule">
                       </div>
+                     </div>
+                     <div class="form-group" style="padding-right: 10px; padding-left: 10px">
+                       <button type="submit" class="form-control btn btn-sm btn-success">Upload</button>
                      </div>
                     <input type="hidden" name="id" value="{{ $t->id }}">
                   </form>

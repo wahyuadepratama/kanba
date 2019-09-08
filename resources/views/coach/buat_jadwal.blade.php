@@ -21,8 +21,19 @@
 @section('menu-desc','Buat jadwal dengan anak asuh, agar coaching anda lebih teratur')
 
 @section('content')
-<div class="container-fluid">
-  <br>
+<div class="container-fluid"><br>
+  <div class="card shadow">
+    <div class="card-body">
+      Keterangan:
+      <ul>
+        <li>Pilih bulan dan tahun sebelum membuat jadwal</li>
+        <li>Klik <b>Buat Jadwal</b> untuk membuat jadwal dari anak asuh anda</li>
+        <li><b>Hapus Jadwal</b> hanya dapat digunakan untuk menghapus jadwal yang sudah dibuat namun belum dilaksanakan.
+          Fitur ini dapat digunakan jika anda ingin mengubah jadwal karena kesalahan input</li>
+        <li>Jadwal coaching yang sudah dilaksanakan tidak dapat dihapus</li>
+      </ul>
+    </div>
+  </div><br>
   <div class="row">
     <div class="col-md-6 pd-bottom"></div>
     <div class="col-md-6 ">
@@ -59,14 +70,6 @@
 <!-- DataTales Example -->
 
 <div class="card shadow mb-4">
-  <!-- <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">
-      <script type="text/javascript">
-        var d = new Date();
-        alert(d.getMonth()+1);
-      </script>
-    </h6>
-  </div> -->
 
   <div class="card-body">
     <div class="table-responsive">
@@ -109,7 +112,11 @@
                      <span class="text">Buat Jadwal</span>
                    </a>
                 @else
-                <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $data->id }}')"><i class="fas fa-trash"></i> Hapus Jadwal</a>
+                  @if($data->actual == null)
+                  <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $data->id }}')"><i class="fas fa-trash"></i> Hapus Jadwal</a>
+                  @else
+                    <b>Sudah Dilaksanakan!</b>
+                  @endif
                 @endif
                 <hr class="d-md-none">
               </td>
@@ -167,8 +174,8 @@
       function storeUpdate(id, month, year) {
         var sch = $('#jadwals').val();
         var date = new Date($('#jadwals').val());
-        day = date.getDate();
         month = date.getMonth() + 1;
+        year = date.getFullYear()
 
         if (sch == "") {
           swal({
@@ -178,7 +185,6 @@
             timer: 2000
           });
         }else{
-
           if (month != $('#month').val()) {
             swal({
               icon: "warning",
@@ -187,25 +193,36 @@
               timer: 2000
             });
           }else{
-            $.ajax({ /* THEN THE AJAX CALL */
-              url: '/coach-schedule/store',
-              method : "POST",
-              data:{'id': id, 'sch': sch, 'month': month, 'year': year, _token: '{{csrf_token()}}'},
-              async : true,
-              dataType : 'text',
-              success: function(data){
-                $('#dataTable').dataTable().fnClearTable();
-                $('#dataTable').DataTable().destroy();
-                $('#dataTable').find('tbody').append(data);
-                $('#dataTable').DataTable().draw();
+            if (year != $('#year').val()) {
                 swal({
-                  icon: "success",
-                  text: "Jadwal baru berhasil ditambahkan!",
+                  icon: "warning",
+                  text: "Pastikan anda memilih tahun yang sesuai !",
                   buttons: false,
                   timer: 2000
                 });
-              }
-            });
+            }else{
+
+              $.ajax({ /* THEN THE AJAX CALL */
+                url: '/coach-schedule/store',
+                method : "POST",
+                data:{'id': id, 'sch': sch, 'month': month, 'year': year, _token: '{{csrf_token()}}'},
+                async : true,
+                dataType : 'text',
+                success: function(data){
+                  $('#dataTable').dataTable().fnClearTable();
+                  $('#dataTable').DataTable().destroy();
+                  $('#dataTable').find('tbody').append(data);
+                  $('#dataTable').DataTable().draw();
+                  swal({
+                    icon: "success",
+                    text: "Jadwal baru berhasil ditambahkan!",
+                    buttons: false,
+                    timer: 2000
+                  });
+                }
+              });
+
+            }
           }
 
         }

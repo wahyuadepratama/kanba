@@ -44,7 +44,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th style="width:20px !important">No</th>
+                      <th>No</th>
                       <th>Nama</th>
                       <th>NIK</th>
                       <th>Anak Asuh</th>
@@ -57,13 +57,13 @@
                     @php $no=1; @endphp
                     @for ($i=0; $i < count($rank); $i++)
                     <tr>
-                      <td class="td-ranking" data-th="#">{{ $no++ }}</td>
-                      <td class="td-ranking">{{ $rank[$i]['coach'] }}</td>
-                      <td class="td-ranking">{{ $rank[$i]['nik'] }}</td>
-                      <td class="td-ranking">{{ $rank[$i]['trainee'] }} orang</td>
-                      <td class="td-ranking">{{ $rank[$i]['plan'] }} x</td>
-                      <td class="td-ranking">{{ $rank[$i]['coaching'] }} x</td>
-                      <td class="td-ranking">{{ number_format($rank[$i]['archivement'], 1) }}%</td>
+                      <td data-th="Rangking">{{ $no }}</td>
+                      <td data-th="Rangking {{ $no++ }} &#xa;">{{ $rank[$i]['coach'] }}</td>
+                      <td data-th="NIK &#xa;">{{ $rank[$i]['nik'] }}</td>
+                      <td data-th="Anak Asuh &#xa;">{{ $rank[$i]['trainee'] }} orang</td>
+                      <td data-th="Terjadwal &#xa;">{{ $rank[$i]['plan'] }} x</td>
+                      <td data-th="Terlaksana &#xa;">{{ $rank[$i]['coaching'] }} x</td>
+                      <td style="border-bottom: 1px solid #e3e6f0;" data-th="Archivement &#xa;">{{ number_format($rank[$i]['archivement'], 1) }}%</td>
                     </tr>
                     @endfor
                   </tbody>

@@ -56,25 +56,29 @@
           </a>
           <!-- Dropdown - User Information -->
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+            <a class="dropdown-item d-md-none" href="/coach">
+              <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-800"></i>
+              Home
+            </a>
             <a class="dropdown-item d-md-none" href="/coach-schedule">
-              <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+              <i class="fas fa-calendar-check fa-sm fa-fw mr-2 text-gray-800"></i>
               Buat Jadwal
             </a>
             <a class="dropdown-item d-md-none" href="/coach-status">
-              <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+              <i class="far fa-bell fa-sm fa-fw mr-2 text-gray-800"></i>
               Status
             </a>
             <a class="dropdown-item d-md-none" href="/coach-performa">
-              <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+              <i class="fas fa-chart-line fa-sm fa-fw mr-2 text-gray-800"></i>
               Performa
             </a>
             <div class="dropdown-divider d-md-none"></div>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-              <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-              {{ session('login')->name }}
+              <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-800"></i>
+              {{ session('login')->name }} ({{ session('login')->nik }})
             </a>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-800"></i>
               Logout
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

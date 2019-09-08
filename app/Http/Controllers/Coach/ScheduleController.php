@@ -16,6 +16,8 @@ class ScheduleController extends Controller
                    ->join('users', 'coach_trainees.trainee_nik', '=', 'users.nik')
                    ->select('coach_trainees.id', 'users.name', 'users.phone', 'users.nik')
                    ->where('coach_trainees.coach_nik', session('login')->nik)
+                   ->where('coach_trainees.month', date('m'))
+                   ->where('coach_trainees.year', date('Y'))
                    ->get();
     return view('coach.buat_jadwal')->with(compact('data'));
   }
@@ -33,6 +35,8 @@ class ScheduleController extends Controller
                    ->join('users', 'coach_trainees.trainee_nik', '=', 'users.nik')
                    ->select('coach_trainees.id', 'users.name', 'users.phone', 'users.nik')
                    ->where('coach_trainees.coach_nik', session('login')->nik)
+                   ->where('coach_trainees.month', $request->month)
+                   ->where('coach_trainees.year', $request->year)
                    ->get();
      $no = 1;
      foreach ($trainee as $d) {
@@ -65,7 +69,11 @@ class ScheduleController extends Controller
                 <span class="text">Buat Jadwal</span>
               </a>';
            }else{
-             echo '<a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm(\''. $data->id .'\')"><i class="fas fa-trash"></i> Hapus Jadwal</a>';
+             if ($data->actual == null) {
+               echo '<a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm(\''. $data->id .'\')"><i class="fas fa-trash"></i> Hapus Jadwal</a>';
+             }else {
+               echo '<b>Sudah Dilaksanakan!</b>';
+             }
            }
          echo '<hr class="d-md-none"></td>
        </tr>
