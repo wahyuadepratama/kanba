@@ -17,7 +17,7 @@
             <input class="form-control" type="text" required id="nik" placeholder="NIK"/>
           </div>
           <div class="form-group">
-            <input class="form-control" type="password" required id="password" placeholder="Password"/>
+            <input class="form-control" type="number" required id="phone" placeholder="No WhatsApp | Format: +628******* | Optional"/>
           </div>
       </div>
       <div class="modal-footer">

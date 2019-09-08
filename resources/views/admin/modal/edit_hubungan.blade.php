@@ -14,7 +14,7 @@
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Data anak asuh</label>
                 <select id="traineeData" class="js-example-basic-multiple" style="width: 100% !important" name="trainee[]" multiple="multiple">
-                  @forelse(\App\Models\User::where('role_id', 3)->get(); as $trainee)
+                  @forelse(\App\Models\User::where('role_id', 3)->orWhere('role_id', 2)->get(); as $trainee)
                   <option value="{{ $trainee->nik }}">{{ $trainee->name }} ({{ $trainee->nik }})</option>
                   @empty
                   <p>Belum ada anak asuh !</p>
