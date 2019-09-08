@@ -8,7 +8,7 @@ class CoachTrainee extends Model
 {
     protected $table = 'coach_trainees';
     protected $fillable = [
-        'id','coach_nik', 'trainee_nik', 'created_at','updated_at'
+        'id','coach_nik', 'trainee_nik', 'month', 'year', 'created_at','updated_at'
     ];
 
     public function trainee(){

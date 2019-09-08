@@ -51,7 +51,8 @@
             <td>{{ $c->nik }}</td>
             <td>{{ \Carbon\Carbon::parse($c->created_at)->diffForHumans() }}</td>
             <td>
-              <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $c->nik }}', '{{ $c->name }}')"><i class="fas fa-trash"></i> Hapus</a>
+              <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $c->nik }}', '{{ $c->name }}')"> Hapus</a>
+              <a class="btn btn-warning btn-sm" href="#" onclick="showModal('{{ $c->name }}', '{{ $c->nik }}', '{{ $c->phone }}')" data-toggle="modal" data-target="#editBapakAsuh">Edit</a>
             </td>
           </tr>
           @empty
@@ -67,6 +68,7 @@
 @section('javascript')
 
 @include('admin.modal.add_anak_asuh')
+@include('admin.modal.edit_anak_asuh')
 
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
@@ -91,19 +93,26 @@
 
 <script type="text/javascript">
 
+  $( document ).ready(function() {
+    console.log( "ready!" );
+  });
+
   function storeTrainee() {
+    swal({
+      text: "Please waiting...",
+      buttons: false
+    });
+
     var name = $('#name').val();
     var nik = $('#nik').val();
     var phone = $('#phone').val();
-    var password = $('#password').val();
     $('#name').val('');
     $('#nik').val('');
-    $('#password').val('');
 
     $.ajax({ /* THEN THE AJAX CALL */
       url: "/admin/anak-asuh/store",
       method : "POST",
-      data:{'name': name, 'password': password, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
+      data:{'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
       async : true,
       dataType : 'text',
       success: function(data){
@@ -121,10 +130,51 @@
     });
   }
 
+  function showModal(name, nik, phone) {
+    $('#editname').val(name);
+    $('#editnik').val(nik);
+    $('#editphone').val(phone);
+    $('#savedata').attr('onclick', 'updateCoach(\''+nik+'\')');
+  }
+
+  function updateCoach(currentNik) {
+    swal({
+      text: "Please waiting...",
+      buttons: false
+    });
+    
+    var name = $('#editname').val();
+    var nik = $('#editnik').val();
+    var phone = $('#editphone').val();
+    $('#editname').val('');
+    $('#editnik').val('');
+    $('#editphone').val('');
+
+    $.ajax({ /* THEN THE AJAX CALL */
+      url: "/admin/anak-asuh/update",
+      method : "POST",
+      data:{'current': currentNik, 'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
+      async : true,
+      dataType : 'text',
+      success: function(data){
+        $('#dataTable').dataTable().fnClearTable();
+        $('#dataTable').DataTable().destroy();
+        $('#dataTable').find('tbody').append(data);
+        $('#dataTable').DataTable().draw();
+        swal({
+          icon: "success",
+          text: "Data berhasil diupdate !",
+          buttons: false,
+          timer: 2000
+        });
+      }
+    });
+  }
+
   function destroyConfirm(nik, name){
     swal({
       title: "Apakah kamu yakin?",
-      text: "Menghapus data bapak asuh "+name+" akan menghapus semua jadwal yang pernah dibuat oleh bapak asuh ini.",
+      text: "Menghapus data anak asuh "+name+" akan menghapus semua jadwal yang pernah dibuat oleh bapak asuh ini.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -137,6 +187,11 @@
   }
 
   function destroyTrainee(nik) {
+    swal({
+      text: "Please waiting...",
+      buttons: false
+    });
+
     $.ajax({ /* THEN THE AJAX CALL */
       url: "/admin/anak-asuh/destroy/"+ nik,
       method : "GET",

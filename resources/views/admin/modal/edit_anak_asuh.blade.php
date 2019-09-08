@@ -1,28 +1,28 @@
 <!-- Modal -->
-<div class="modal fade" id="addBapakAsuh" tabindex="-1" role="dialog" aria-labelledby="addBapakAsuhTitle" aria-hidden="true">
+<div class="modal fade" id="editBapakAsuh" tabindex="-1" role="dialog" aria-labelledby="editBapakAsuh" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addBapakAsuhTitle">Tambah Bapak Asuh Baru </h5>
+        <h5 class="modal-title" id="addBapakAsuhTitle">Edit Anak Asuh </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="" action="index.html" method="post">
+      <form class="" >
       <div class="modal-body">
           <div class="form-group">
-            <input class="form-control" type="text" required id="name" placeholder="Nama"/>
+            <input class="form-control" type="text" required id="editname" placeholder="Nama"/>
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" required id="nik" placeholder="NIK"/>
+            <input class="form-control" type="text" required id="editnik" placeholder="NIK"/>
           </div>
           <div class="form-group">
-            <input class="form-control" type="number" required id="phone" placeholder="No WhatsApp (Format: +628*******)"/>
+            <input class="form-control" type="number" required id="editphone" placeholder="No WhatsApp (Format: +628 **)"/>
           </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="storeCoach()" data-dismiss="modal">Tambahkan</button>
+        <button type="button" class="btn btn-primary" id="savedata" data-dismiss="modal">Save</button>
       </div>
     </form>
     </div>

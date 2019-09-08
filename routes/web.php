@@ -27,13 +27,13 @@ Route::group(['middleware' => ['auth','auth.admin']], function(){
   Route::get('/admin/home', 'Admin\HomeController@index');
 
   Route::get('/admin/kelola-hubungan', 'Admin\CoachTraineeController@index');
-  Route::get('/admin/kelola-hubungan/destroy/{id}', 'Admin\CoachTraineeController@destroyTrainee');
+  Route::post('/admin/kelola-hubungan/store', 'Admin\CoachTraineeController@create');
   Route::post('/admin/kelola-hubungan/trainee/get', 'Admin\CoachTraineeController@getTrainee');
   Route::post('/admin/kelola-hubungan/update/{id}', 'Admin\CoachTraineeController@update');
 
   Route::get('/admin/kelola-jadwal', 'Admin\ScheduleController@index');
-  Route::get('/admin/kelola-jadwal/reminder-otomatis/{nik}', 'Admin\ScheduleController@reminderAutomatic');
   Route::post('/admin/kelola-jadwal/reminder-manual', 'Admin\ScheduleController@reminderManual');
+  Route::get('/admin/kelola-jadwal/get-data-coaching/{nik}/{month}/{year}', 'Admin\ScheduleController@getDataCoaching');
 
   Route::get('/admin/performa', 'Admin\PerformaController@index');
   Route::get('/admin/performa/export', 'Admin\PerformaController@export');
@@ -43,10 +43,12 @@ Route::group(['middleware' => ['auth','auth.admin']], function(){
 
   Route::get('/admin/bapak-asuh', 'Admin\UserController@indexCoach');
   Route::post('/admin/bapak-asuh/store', 'Admin\UserController@storeCoach');
+  Route::post('/admin/bapak-asuh/update', 'Admin\UserController@updateCoach');
   Route::get('/admin/bapak-asuh/destroy/{nik}', 'Admin\UserController@destroyCoach');
 
   Route::get('/admin/anak-asuh', 'Admin\UserController@indexTrainee');
   Route::post('/admin/anak-asuh/store', 'Admin\UserController@storeTrainee');
+  Route::post('/admin/anak-asuh/update', 'Admin\UserController@updateTrainee');
   Route::get('/admin/anak-asuh/destroy/{nik}', 'Admin\UserController@destroyTrainee');
 });
 

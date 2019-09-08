@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="remindermanualtittle">Send Message Manual</h5>
+        <h5 class="modal-title" id="remindermanualtittle">Send Message</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,7 +12,7 @@
         @csrf
         <div class="modal-body">
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Tulis pesan anda</label>
+                <label for="exampleFormControlSelect1">Update pesan anda</label>
                 <textarea id="dataTextWhatsapp" name="name" rows="8" cols="80" class="form-control"></textarea>
             </div>
         </div>
