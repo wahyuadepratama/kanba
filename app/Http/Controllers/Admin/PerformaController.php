@@ -7,7 +7,8 @@ use App\Models\User;
 use App\Models\Schedule;
 use App\Models\CoachTrainee;
 use Illuminate\Http\Request;
-use App\Exports\ExportPerforma;
+use App\Exports\ExportCompliance;
+use App\Exports\ExportArchievement;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 
@@ -18,15 +19,21 @@ class PerformaController extends Controller
       $month = $_GET['month'];
       $year = $_GET['year'];
       $coach = $_GET['coach'];
+      $type = $_GET['type'];
 
-      if ($month == "all" && $coach == "all")
-        return $this->getFilterYearData($year);
-      elseif($month == "all")
-        return $this->getFilterYearCoachData($year, $coach);
-      elseif($coach == "all")
-        return $this->getFilterMonthCoachData($month, $year);
-      else
-        return $this->getFilterAllData($month, $year, $coach);
+      if ($type == 'yearly') {
+        if ($coach == 'all')
+          return $this->filterYearlyCoachAll($year);
+        else
+          return $this->filterYearlyCoach($year, $coach);
+      }
+
+      if ($type == 'monthly') {
+        if ($coach == 'all')
+          return $this->filterMonthlyCoachAll($year, $month);
+        else
+          return $this->filterMonthlyCoach($year, $month, $coach);
+      }
 
     }else{
       return $this->getAllData();
@@ -116,24 +123,35 @@ class PerformaController extends Controller
     return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
   }
 
-
-
-
-
-  public function getFilterYearData($year)
+  public function filterYearlyCoachAll($year)
   {
     $sch = Schedule::whereYear('datetime', $year)->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    $data = [0,0,0,0,0,0,0,0,0,0,0,0];
-    $data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    $plans = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $actuals = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0];
+
     foreach ($sch as $v) {
       $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
-      $data[$getMonthNumber] = $data[$getMonthNumber] + 1;
+      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
 
-      if ($v->datetime == $v->actual) {
-        $data2[$getMonthNumber] = $data2[$getMonthNumber] + 1;
-      }
-    }
+      if ($v->actual != null)
+        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+
+      if ($v->datetime == $v->actual)
+        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+     }
+
+     for ($i=0; $i < count($ontimes); $i++){
+       if ($ontimes[$i] != 0 && $actuals[$i] != 0)
+         $ontimes[$i] = $ontimes[$i]/$actuals[$i] * 100;
+     }
+
+     for ($i=0; $i < count($actuals); $i++){
+       if ($actuals[$i] != 0 && $plans[$i] != 0)
+         $actuals[$i] = $actuals[$i]/$plans[$i] * 100;
+     }
 
     $schedule = DB::table('schedules')
                    ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
@@ -145,45 +163,38 @@ class PerformaController extends Controller
     $coach = User::where('role_id', 2)->get();
     $coachTrainee = CoachTrainee::all();
 
-    $coaching = 0;
-    $trainee = 0;
     $plan = 0;
+    $coaching = 0;
     $actual = 0;
     $rank = [];
     $compliance = [];
 
     foreach ($coach as $c) {
-      foreach ($coachTrainee as $ct) {
-        if ($c->nik == $ct->coach_nik)
-          $trainee++;
-      }
 
       foreach ($schedule as $s) {
         if ($c->nik == $s->coach_nik) {
           $plan++;
           if ($s->actual != null)
             $coaching++;
-
           if ($s->actual == $s->datetime)
             $actual++;
         }
       }
 
-      if ($trainee != 0 && $coaching != 0)
-        $archivement = (($coaching/$trainee) * 100)/12;
+      if ($plan != 0 && $coaching != 0)
+        $archivement = ($coaching/$plan) * 100;
       else
         $archivement = 0;
 
-      if ($plan != 0 && $actual != 0)
-        $compliance = ($actual/$plan) * 100;
+      if ($coaching != 0 && $actual != 0)
+        $compliance = ($actual/$coaching) * 100;
       else
         $compliance = 0;
 
       array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
-                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan, 'trainee' => $trainee]);
+                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan]);
 
       $coaching = 0;
-      $trainee = 0;
       $plan = 0;
       $actual = 0;
     }
@@ -192,99 +203,10 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('data', 'rank', 'label', 'data2'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
   }
 
-
-
-
-
-  public function getFilterAllData($month, $year, $coach)
-  {
-    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
-                  ->where('coach_trainees.coach_nik', '=', $coach)
-                  ->whereYear('schedules.datetime', $year)
-                  ->whereMonth('schedules.datetime', $month)
-                  ->select('schedules.*')
-                  ->get();
-    $label = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
-    $data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    $data2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    foreach ($sch as $v) {
-      $getDateNumber = date("d", strtotime($v->datetime)) - 1;
-      $data[$getDateNumber] = $data[$getDateNumber] + 1;
-
-      if ($v->datetime == $v->actual) {
-        $data2[$getDateNumber] = $data2[$getDateNumber] + 1;
-      }
-    }
-
-    $schedule = DB::table('schedules')
-                   ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
-                   ->join('users', 'coach_trainees.trainee_nik', '=', 'users.nik')
-                   ->select('schedules.id', 'schedules.status','schedules.photo', 'users.name as trainee',
-                     'coach_trainees.coach_nik', 'schedules.datetime', 'schedules.actual')
-                   ->whereYear('schedules.datetime', $year)
-                   ->whereMonth('schedules.datetime', $month)
-                   ->get();
-    $coach = User::where('role_id', 2)->get();
-    $coachTrainee = CoachTrainee::all();
-
-    $coaching = 0;
-    $trainee = 0;
-    $plan = 0;
-    $actual = 0;
-    $rank = [];
-    $compliance = [];
-
-    foreach ($coach as $c) {
-      foreach ($coachTrainee as $ct) {
-        if ($c->nik == $ct->coach_nik)
-          $trainee++;
-      }
-
-      foreach ($schedule as $s) {
-        if ($c->nik == $s->coach_nik) {
-          $plan++;
-          if ($s->actual != null)
-            $coaching++;
-
-          if ($s->actual == $s->datetime)
-            $actual++;
-        }
-      }
-
-      if ($trainee != 0 && $coaching != 0)
-        $archivement = ($coaching/$trainee) * 100;
-      else
-        $archivement = 0;
-
-      if ($plan != 0 && $actual != 0)
-        $compliance = ($actual/$plan) * 100;
-      else
-        $compliance = 0;
-
-      array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
-                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan, 'trainee' => $trainee]);
-
-      $coaching = 0;
-      $trainee = 0;
-      $plan = 0;
-      $actual = 0;
-    }
-
-    usort($rank, function($a, $b) { //Sort the array using a user defined function
-        return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
-    });
-
-    return view('admin.performa')->with(compact('data', 'rank', 'label', 'data2'));
-  }
-
-
-
-
-
-  public function getFilterYearCoachData($year, $coach)
+  public function filterYearlyCoach($year, $coach)
   {
     $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
                   ->where('coach_trainees.coach_nik', '=', $coach)
@@ -292,16 +214,31 @@ class PerformaController extends Controller
                   ->select('schedules.*')
                   ->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    $data = [0,0,0,0,0,0,0,0,0,0,0,0];
-    $data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    $plans = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $actuals = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0];
+
     foreach ($sch as $v) {
       $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
-      $data[$getMonthNumber] = $data[$getMonthNumber] + 1;
+      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
 
-      if ($v->datetime == $v->actual) {
-        $data2[$getMonthNumber] = $data2[$getMonthNumber] + 1;
-      }
-    }
+      if ($v->actual != null)
+        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+
+      if ($v->datetime == $v->actual)
+        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+     }
+
+     for ($i=0; $i < count($ontimes); $i++){
+       if ($ontimes[$i] != 0 && $actuals[$i] != 0)
+         $ontimes[$i] = $ontimes[$i]/$actuals[$i] * 100;
+     }
+
+     for ($i=0; $i < count($actuals); $i++){
+       if ($actuals[$i] != 0 && $plans[$i] != 0)
+         $actuals[$i] = $actuals[$i]/$plans[$i] * 100;
+     }
 
     $schedule = DB::table('schedules')
                    ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
@@ -313,45 +250,38 @@ class PerformaController extends Controller
     $coach = User::where('role_id', 2)->get();
     $coachTrainee = CoachTrainee::all();
 
-    $coaching = 0;
-    $trainee = 0;
     $plan = 0;
+    $coaching = 0;
     $actual = 0;
     $rank = [];
     $compliance = [];
 
     foreach ($coach as $c) {
-      foreach ($coachTrainee as $ct) {
-        if ($c->nik == $ct->coach_nik)
-          $trainee++;
-      }
 
       foreach ($schedule as $s) {
         if ($c->nik == $s->coach_nik) {
           $plan++;
           if ($s->actual != null)
             $coaching++;
-
           if ($s->actual == $s->datetime)
             $actual++;
         }
       }
 
-      if ($trainee != 0 && $coaching != 0)
-        $archivement = (($coaching/$trainee) * 100)/12;
+      if ($plan != 0 && $coaching != 0)
+        $archivement = ($coaching/$plan) * 100;
       else
         $archivement = 0;
 
-      if ($plan != 0 && $actual != 0)
-        $compliance = ($actual/$plan) * 100;
+      if ($coaching != 0 && $actual != 0)
+        $compliance = ($actual/$coaching) * 100;
       else
         $compliance = 0;
 
       array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
-                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan, 'trainee' => $trainee]);
+                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan]);
 
       $coaching = 0;
-      $trainee = 0;
       $plan = 0;
       $actual = 0;
     }
@@ -360,30 +290,28 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('data', 'rank', 'label', 'data2'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
   }
 
-
-
-
-  public function getFilterMonthCoachData($month, $year)
+  public function filterMonthlyCoachAll($year, $month)
   {
-    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
-                  ->whereMonth('schedules.datetime', $month)
-                  ->whereYear('schedules.datetime', $year)
-                  ->select('schedules.*')
-                  ->get();
+    $sch = Schedule::whereYear('datetime', $year)->whereMonth('datetime', $month)->get();
     $label = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
-    $data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    $data2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    foreach ($sch as $v) {
-      $getDateNumber = date("d", strtotime($v->datetime)) - 1;
-      $data[$getDateNumber] = $data[$getDateNumber] + 1;
 
-      if ($v->datetime == $v->actual) {
-        $data2[$getDateNumber] = $data2[$getDateNumber] + 1;
-      }
-    }
+    $plans = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $actuals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    foreach ($sch as $v) {
+      $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
+      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
+
+      if ($v->actual != null)
+        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+
+      if ($v->datetime == $v->actual)
+        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+     }
 
     $schedule = DB::table('schedules')
                    ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
@@ -396,45 +324,38 @@ class PerformaController extends Controller
     $coach = User::where('role_id', 2)->get();
     $coachTrainee = CoachTrainee::all();
 
-    $coaching = 0;
-    $trainee = 0;
     $plan = 0;
+    $coaching = 0;
     $actual = 0;
     $rank = [];
     $compliance = [];
 
     foreach ($coach as $c) {
-      foreach ($coachTrainee as $ct) {
-        if ($c->nik == $ct->coach_nik)
-          $trainee++;
-      }
 
       foreach ($schedule as $s) {
         if ($c->nik == $s->coach_nik) {
           $plan++;
           if ($s->actual != null)
             $coaching++;
-
           if ($s->actual == $s->datetime)
             $actual++;
         }
       }
 
-      if ($trainee != 0 && $coaching != 0)
-        $archivement = ($coaching/$trainee) * 100;
+      if ($plan != 0 && $coaching != 0)
+        $archivement = ($coaching/$plan) * 100;
       else
         $archivement = 0;
 
-      if ($plan != 0 && $actual != 0)
-        $compliance = ($actual/$plan) * 100;
+      if ($coaching != 0 && $actual != 0)
+        $compliance = ($actual/$coaching) * 100;
       else
         $compliance = 0;
 
       array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
-                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan, 'trainee' => $trainee]);
+                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan]);
 
       $coaching = 0;
-      $trainee = 0;
       $plan = 0;
       $actual = 0;
     }
@@ -443,19 +364,98 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('data', 'rank', 'label', 'data2'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
   }
 
+  public function filterMonthlyCoach($year, $month, $coach)
+  {
+    $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->where('coach_trainees.coach_nik', '=', $coach)
+                  ->whereYear('schedules.datetime', $year)
+                  ->whereMonth('datetime', $month)
+                  ->select('schedules.*')
+                  ->get();
+    $label = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 
+    $plans = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $actuals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
+    foreach ($sch as $v) {
+      $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
+      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
 
+      if ($v->actual != null)
+        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
 
+      if ($v->datetime == $v->actual)
+        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+     }
+
+    $schedule = DB::table('schedules')
+                   ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                   ->join('users', 'coach_trainees.trainee_nik', '=', 'users.nik')
+                   ->select('schedules.id', 'schedules.status','schedules.photo', 'users.name as trainee',
+                     'coach_trainees.coach_nik', 'schedules.datetime', 'schedules.actual')
+                   ->whereYear('schedules.datetime', $year)
+                   ->whereMonth('schedules.datetime', $month)
+                   ->get();
+    $coach = User::where('role_id', 2)->get();
+    $coachTrainee = CoachTrainee::all();
+
+    $plan = 0;
+    $coaching = 0;
+    $actual = 0;
+    $rank = [];
+    $compliance = [];
+
+    foreach ($coach as $c) {
+
+      foreach ($schedule as $s) {
+        if ($c->nik == $s->coach_nik) {
+          $plan++;
+          if ($s->actual != null)
+            $coaching++;
+          if ($s->actual == $s->datetime)
+            $actual++;
+        }
+      }
+
+      if ($plan != 0 && $coaching != 0)
+        $archivement = ($coaching/$plan) * 100;
+      else
+        $archivement = 0;
+
+      if ($coaching != 0 && $actual != 0)
+        $compliance = ($actual/$coaching) * 100;
+      else
+        $compliance = 0;
+
+      array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
+                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan]);
+
+      $coaching = 0;
+      $plan = 0;
+      $actual = 0;
+    }
+
+    usort($rank, function($a, $b) { //Sort the array using a user defined function
+        return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
+    });
+
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+  }
 
   public function export()
   {
     $month = $_GET['month'];
     $year = $_GET['year'];
     $type = $_GET['type'];
-    return Excel::download(new ExportPerforma($month, $year, $type), 'siswa.xlsx');
+
+    if ($type == 'archivement') {
+        return Excel::download(new ExportArchievement($year, $month), 'archivement_'. $month .'_'. $year .'.xlsx');
+    }else{
+        return Excel::download(new ExportCompliance($year, $month), 'compliance_'. $month .'_'. $year .'.xlsx');
+    }
   }
 }

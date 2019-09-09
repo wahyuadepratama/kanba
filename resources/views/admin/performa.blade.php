@@ -16,7 +16,7 @@
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-fw fa-tachometer-alt"></i> Performa</h1><br>
+<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-fw fa-tachometer-alt"></i> Performa </h1><br>
 <div class="grid-performa">
   <div class="grid-performa-1">
     <select class="form-control btn-sm" id="type" onchange="filter()">
@@ -44,13 +44,39 @@
       @endfor
 
       @if($terlaksana != 0 && $rencana != 0)
-      <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+      <span class="text">Achievement All Coach : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
       @else
-      <span class="text">Achievement : 0 %</span>
+      <span class="text">Achievement All Coach : 0 %</span>
       @endif
     </a>
   </div>
   <div class="grid-performa-4">
+    <select class="form-control btn-sm" id="coach" onchange="filter()">
+      <option value="all">Semua Coach</option>
+      @foreach(\App\Models\User::where('role_id', 2)->orderBy('name')->get() as $coach)
+        <option value="{{ $coach->nik }}">{{ $coach->name }} ({{ $coach->nik }})</option>
+      @endforeach
+    </select>
+    @if($_GET)
+      @if($_GET['type'] == 'yearly')
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/performa/export?month=all'. '&year='. $_GET['year']) }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+      @elseif($_GET['type'] == 'monthly')
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/performa/export?month='. $_GET['month'] . '&year='. $_GET['year']) }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+      @endif
+    @else
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/performa/export?month=all&year='. date('Y')) }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+    @endif
+  </div>
+  <div class="grid-performa-5">
     <select class="form-control btn-sm" id="month" onchange="filter()">
       <option value="1">Januari</option>
       <option value="2">Febuari</option>
@@ -66,31 +92,12 @@
       <option value="12">Desember</option>
     </select>
   </div>
-  <div class="grid-performa-5">
-    <select class="form-control btn-sm" id="coach" onchange="filter()">
-      <option value="all">Semua Coach</option>
-      @foreach(\App\Models\User::where('role_id', 2)->orderBy('name')->get() as $coach)
-        <option value="{{ $coach->nik }}">{{ $coach->name }} ({{ $coach->nik }})</option>
-      @endforeach
-    </select>
-    @if($_GET)
-      <a class="form-control btn btn-success btn-sm btn-icon-split"
-        href="{{ url('/admin/performa/export?month='. $_GET['month']. '&year='. $_GET['year']) }}" id="export">
-        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
-      </a>
-    @else
-      <a class="form-control btn btn-success btn-sm btn-icon-split"
-        href="{{ url('/admin/performa/export?month=all&year=all') }}" id="export">
-        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
-      </a>
-    @endif
-  </div>
   <div class="grid-performa-6 text-center">
     <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
       @if($terlaksana != 0 && $tepatwaktu != 0)
-      <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
+      <span class="text">Compliance All Coach : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
       @else
-      <span class="text">Compliance : 0 %</span>
+      <span class="text">Compliance All Coach : 0 %</span>
       @endif
     </a>
   </div>
@@ -100,6 +107,9 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-body">
+
+    <div id="statusFilter"></div><br>
+
     <div class="chart-area">
       <canvas id="myAreaChart"></canvas>
     </div>
@@ -144,7 +154,12 @@
           </tr>
         </thead>
         <tbody>
-          @php $no=1; @endphp
+          @php
+            $no=1;
+            usort($rank, function($a, $b) { //Sort the array using a user defined function
+                return $a['compliance'] > $b['compliance'] ? -1 : 1; //Compare the scores
+            });
+          @endphp
           @for ($i=0; $i < count($rank); $i++)
           <tr>
             <td class="td-ranking" data-th="#">{{ $no++ }}</td>
@@ -287,24 +302,21 @@
   });
 
   @if($_GET)
-
-    @if($_GET['month'] == null)
-        var
-        d.getMonth()+1
-    @else
-        $('#month').val('{{ $_GET['month'] }}');
-        $('#coach').val('{{ $_GET['coach'] }}');
-    @endif
-
-    @if($_GET['year'] == null)
-        var d = new Date();
-        $('#year').val(d.getFullYear());
-    @else
-        $('#year').val('{{ $_GET['year'] }}');
-    @endif
+    $('#type').val('{{ $_GET['type'] }}');
+    $('#month').val('{{ $_GET['month'] }}');
+    $('#coach').val('{{ $_GET['coach'] }}');
+    $('#year').val('{{ $_GET['year'] }}');
+    if ($('#type').val() == 'yearly') {
+      $('#statusFilter').html('Hasil Pencarian: ' + $('#year option:selected').html());
+    }else if ($('#type').val() == 'monthly') {
+      $('#statusFilter').html('Hasil Pencarian: ' + $('#month option:selected').html() + ', ' + $('#year option:selected').html());
+    }
   @else
     var d = new Date();
+    $('#month').val(d.getMonth()+1);
     $('#year').val(d.getFullYear());
+
+    $('#statusFilter').html('Hasil Pencarian: '+d.getFullYear());
   @endif
 
   // var d = new Date();
@@ -315,7 +327,15 @@
       $("#myRanking").hide();
       $("#compliance").hide();
       $('#export').hide();
-      $('#month').hide();
+      @if(isset($_GET['type']))
+        @if($_GET['type'] == 'yearly')
+          $('#month').hide();
+        @else
+          $('#month').show();
+        @endif
+      @else
+        $('#month').hide();
+      @endif
       var type = $('#export').attr('href');
 
       $("#type").change(function(){
@@ -344,7 +364,8 @@
             break;
           case "ranking":
               $(".chart-area").hide();
-              $('#month').show();
+              $('#month').hide();
+              $('#year').hide();
               $('#export').show();
               $('#export').attr('href', type + '&type=archivement');
               $("#coach").hide();
@@ -353,7 +374,8 @@
             break;
           case "compliance":
               $("#compliance").show();
-              $('#month').show();
+              $('#month').hide();
+              $('#year').hide();
               $('#export').show();
               $('#export').attr('href', type + '&type=compliance');
               $("#coach").hide();
@@ -375,9 +397,9 @@
     var coach = $('#coach').val();
     var type = $('#type').val();
     if (type == "yearly") {
-      window.location.href = "/admin/performa?type=yearly&coach="+coach+"&year="+year;
-    }else if (type == "monthly") {
       window.location.href = "/admin/performa?type=yearly&coach="+coach+"&year="+year+"&month="+month;
+    }else if (type == "monthly") {
+      window.location.href = "/admin/performa?type=monthly&coach="+coach+"&year="+year+"&month="+month;
     }
   }
 
