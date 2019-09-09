@@ -7,7 +7,7 @@
 <link href="{{ url('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="{{ url('vendor/taginputs/tagsinput.css') }}" rel="stylesheet">
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script> -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" /> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @endsection
 
@@ -153,9 +153,22 @@
 <!-- datetime picker -->
 <script src="https://momentjs.com/downloads/moment-with-locales.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script> -->
+<script src="https://momentjs.com/downloads/moment-with-locales.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 
   <script type="text/javascript">
+
+      $(function () {
+          $('#datetimepicker11').datetimepicker({
+              format: 'YYYY-MM-DD',
+              icons: {
+                  time: "fa fa-clock-o",
+                  date: "fa fa-calendar",
+                  up: "fa fa-arrow-up",
+                  down: "fa fa-arrow-down"
+              }
+          });
+      });
 
       var d = new Date();
       $('#month').val(d.getMonth()+1);

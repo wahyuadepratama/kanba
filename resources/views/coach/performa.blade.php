@@ -47,7 +47,6 @@
                       <th>No</th>
                       <th>Nama</th>
                       <th>NIK</th>
-                      <th>Anak Asuh</th>
                       <th>Terjadwal</th>
                       <th>Terlaksana</th>
                       <th>Achievement</th>
@@ -60,7 +59,6 @@
                       <td data-th="Rangking">{{ $no }}</td>
                       <td data-th="Rangking {{ $no++ }} &#xa;">{{ $rank[$i]['coach'] }}</td>
                       <td data-th="NIK &#xa;">{{ $rank[$i]['nik'] }}</td>
-                      <td data-th="Anak Asuh &#xa;">{{ $rank[$i]['trainee'] }} orang</td>
                       <td data-th="Terjadwal &#xa;">{{ $rank[$i]['plan'] }} x</td>
                       <td data-th="Terlaksana &#xa;">{{ $rank[$i]['coaching'] }} x</td>
                       <td style="border-bottom: 1px solid #e3e6f0;" data-th="Archivement &#xa;">{{ number_format($rank[$i]['archivement'], 1) }}%</td>
@@ -73,7 +71,7 @@
             <!-- end chart -->
             <div class="performa-form">
               <div class="form-group">
-                <select class="form-control btn-sm" id="year" onchange="changeYearMonth()">
+                <select class="form-control btn-sm" id="year" onchange="filter()">
                   <option value="2019">2019</option>
                   <option value="2020">2020</option>
                   <option value="2021">2021</option>
@@ -81,14 +79,14 @@
                 </select>
               </div>
               <div class="form-group">
-                <select class="form-control btn-sm" id="type">
-                  <option value="monthly" selected>Monthly Grafik</option>
+                <select class="form-control btn-sm" id="type" onchange="filter()">
+                  <option value="yearly" selected>Yearly Grafik</option>
+                  <option value="monthly">Monthly Grafik</option>
                   <option value="ranking">Ranking</option>
                 </select>
               </div>
               <div class="form-group">
-                <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
-                  <option value="all">Semua Bulan (1 Tahun)</option>
+                <select class="form-control btn-sm" id="month" onchange="filter()">
                   <option value="1">Januari</option>
                   <option value="2">Febuari</option>
                   <option value="3">Maret</option>
@@ -104,20 +102,20 @@
                 </select>
               </div>
               <div class="form-group" id="achievementResult">
-                @php $no=1; $anakasuh=0; $terlaksana=0; @endphp
+                <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
+                @php $no=1; $rencana=0; $terlaksana=0; $tepatwaktu=0 @endphp
                 @for ($i=0; $i < count($rank); $i++)
-                  @php $anakasuh = $anakasuh + $rank[$i]['trainee'] @endphp
+                  @php $rencana = $rencana + $rank[$i]['plan'] @endphp
                   @php $terlaksana = $terlaksana + $rank[$i]['coaching'] @endphp
+                  @php $tepatwaktu = $tepatwaktu + $rank[$i]['actual'] @endphp
                 @endfor
-                @if($_GET)
-                  @if($_GET['month'] == 'all')
-                    <h6>Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</h6>
-                  @else
-                    <h6>Achievement : {{ number_format($terlaksana/$anakasuh * 100, 1) }}%</h6>
-                  @endif
+
+                @if($terlaksana != 0 && $rencana != 0)
+                <span class="text">Achievement All Coach : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
                 @else
-                  <h6>Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</h6>
+                <span class="text">Achievement All Coach : 0 %</span>
                 @endif
+                </a>
               </div>
             </div>
             <!-- end performa form -->
@@ -163,7 +161,7 @@
     data: {
       labels: [<?php echo '"'.implode('","', $label).'"' ?>],
       datasets: [{
-        label: "Total",
+        label: "Persentase Pelaksanaan",
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -175,7 +173,7 @@
         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [<?php echo '"'.implode('","', $data).'"' ?>],
+        data: [<?php echo '"'.implode('","', $actuals).'"' ?>],
       }],
     },
     options: {
@@ -247,22 +245,14 @@
   });
 
   @if($_GET)
-
-    @if($_GET['month'] == null)
-        $('#month').val("all");
-    @else
-        $('#month').val('{{ $_GET['month'] }}');
-    @endif
-
-    @if($_GET['year'] == null)
-        var d = new Date();
-        $('#year').val(d.getFullYear());
-    @else
-        $('#year').val('{{ $_GET['year'] }}');
-    @endif
+    $('#type').val('{{ $_GET['type'] }}');
+    $('#month').val('{{ $_GET['month'] }}');
+    $('#year').val('{{ $_GET['year'] }}');
   @else
     var d = new Date();
+    $('#month').val(d.getMonth()+1);
     $('#year').val(d.getFullYear());
+
   @endif
 
   // var d = new Date();
@@ -271,16 +261,37 @@
 
   $(document).ready(function(){
       $("#myRanking").hide();
+      @if(isset($_GET['type']))
+        @if($_GET['type'] == 'yearly')
+          $('#month').hide();
+        @else
+          $('#month').show();
+        @endif
+      @else
+        $('#month').hide();
+      @endif
       $("#type").change(function(){
 
         var selected = $(this). children("option:selected"). val();
         switch (selected) {
           case "ranking":
               $(".chart-area").hide();
+              $('#month').hide();
+              $('#year').hide();
               $("#myRanking").show();
             break;
           case "monthly":
               $(".chart-area").show();
+              $("#myRanking").hide();
+              $('#month').show();
+              $('#year').show();
+              $("#selectWeekMonth").show();
+              $("#achievementResult").show();
+            break;
+          case "yearly":
+              $(".chart-area").show();
+              $('#month').hide();
+              $('#year').show();
               $("#myRanking").hide();
               $("#selectWeekMonth").show();
               $("#achievementResult").show();
@@ -292,10 +303,15 @@
     });
   });
 
-  function changeYearMonth() {
+  function filter() {
     var month = $('#month').val();
     var year = $('#year').val();
-    window.location.href = "/coach-performa?month="+month+"&year="+year;
+    var type = $('#type').val();
+    if (type == "yearly") {
+      window.location.href = "/coach-performa?type=yearly&year="+year+"&month="+month;
+    }else if (type == "monthly") {
+      window.location.href = "/coach-performa?type=monthly&year="+year+"&month="+month;
+    }
   }
 </script>
 

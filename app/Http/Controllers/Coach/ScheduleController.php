@@ -83,7 +83,7 @@ class ScheduleController extends Controller
 
   public function store(Request $request){
     Schedule::create([
-      'datetime' => $this->convertDate($request->sch),
+      'datetime' => $request->sch,
       'relationship_id' => $request->id,
       'status' => 'ongoing'
     ]);

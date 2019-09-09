@@ -122,23 +122,8 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
               </td>
               <td>
                 @if($t->status == 'ongoing')
-                  <!-- <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                      <input type="file" name="file" required class="btn btn-sm form-control">
-                    </div>
-                    <div class="form-group" style="padding-right: 10px; padding-left: 10px">
-                      <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                        <input placeholder="Actual Coaching" class="form-control input-sm" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" required name="schedule">
-                      </div>
-                     </div>
-                     <div class="form-group" style="padding-right: 10px; padding-left: 10px">
-                       <button type="submit" class="form-control btn btn-sm btn-success">Upload</button>
-                     </div>
-                    <input type="hidden" name="id" value="{{ $t->id }}">
-                  </form> -->
                   <center>
-                  <a class="btn btn-primary btn-sm from-control" href="#" data-toggle="modal" data-target="#uploadPhoto">
+                  <a class="btn btn-primary btn-sm from-control" href="#" data-toggle="modal" data-target="#uploadPhoto" onclick="showUploadModal('{{ $t->id }}')">
                      <span class="icon text-white-50">
                        <i class="fas fa-plus"></i>
                      </span>
@@ -217,31 +202,36 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
       });
     }
 
+    function showUploadModal(id) {
+      $('#idhidden').val(id);
+    }
+
   </script>
 
   <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker11').datetimepicker({
-                icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                }
-            });
-        });
-
-        $('#chooseFile').bind('change', function () {
-        var filename = $("#chooseFile").val();
-        if (/^\s*$/.test(filename)) {
-          $(".file-upload").removeClass('active');
-          $("#noFile").text("No file chosen...");
-        }
-        else {
-          $(".file-upload").addClass('active');
-          $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
-        }
+      $(function () {
+          $('#datetimepicker11').datetimepicker({
+              format: 'YYYY-MM-DD',
+              icons: {
+                  time: "fa fa-clock-o",
+                  date: "fa fa-calendar",
+                  up: "fa fa-arrow-up",
+                  down: "fa fa-arrow-down"
+              }
+          });
       });
-    </script>
+
+      $('#chooseFile').bind('change', function () {
+      var filename = $("#chooseFile").val();
+      if (/^\s*$/.test(filename)) {
+        $(".file-upload").removeClass('active');
+        $("#noFile").text("No file chosen...");
+      }
+      else {
+        $(".file-upload").addClass('active');
+        $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
+      }
+    });
+  </script>
 
 @endsection

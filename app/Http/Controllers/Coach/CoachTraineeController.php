@@ -71,25 +71,14 @@ class CoachTraineeController extends Controller
           echo '</td>
           <td>';
             if($t->status == 'ongoing'){
-              echo '<form action="'. url('coach-status/upload') .'" method="post" enctype="multipart/form-data">
-                <input type="hidden" value="'. csrf_token() .'" name="_token">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <button type="submit" class="input-group-text">Upload</button>
-                  </div>
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" name="file"
-                      aria-describedby="inputGroupFileAddon01" required accept="image/*" capture>
-                    <label class="custom-file-label" for="inputGroupFile01"></label>
-                  </div>
-                </div><br>
-                <div class="form-group">
-                  <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                    <input placeholder="Actual Coaching" class="form-control" type="text" onfocus="(this.type=\'date\')" onblur="(this.type=\'text\')" id="date" required name="schedule">
-                  </div>
-                 </div>
-                <input type="hidden" name="id" value="'. $t->id .'">
-              </form>';
+              echo '<center>
+              <a class="btn btn-primary btn-sm from-control" href="#" data-toggle="modal" data-target="#uploadPhoto" onclick="showUploadModal('. $t->id .')">
+                 <span class="icon text-white-50">
+                   <i class="fas fa-plus"></i>
+                 </span>
+                 <span class="text">Upload Foto</span>
+               </a>
+             </center>';
             }else{
               echo '<p style="text-align:center">Sudah Diupload !</p>';
             }

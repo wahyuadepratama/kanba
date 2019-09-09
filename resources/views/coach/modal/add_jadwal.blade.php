@@ -11,7 +11,13 @@
       <form class="" action="index.html" method="post" id="scheduleForm">
       <div class="modal-body">
         <div class="form-group">
-          <input id="jadwals" placeholder="Actual Coaching" class="form-control" type="date" required name="schedule">
+          <!-- <input id="jadwals" placeholder="Actual Coaching" class="form-control" type="date" required name="schedule"> -->
+          <div class="input-group date" id="datetimepicker11" data-target-input="nearest">
+              <input type="text" class="form-control datetimepicker-input" id="jadwals" data-target="#datetimepicker11"/>
+              <div class="input-group-append" data-target="#datetimepicker11" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

@@ -303,14 +303,14 @@ class PerformaController extends Controller
     $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
     foreach ($sch as $v) {
-      $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
-      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
+      $getDateNumber = date("d", strtotime($v->datetime)) - 1;
+      $plans[$getDateNumber] = $plans[$getDateNumber] + 1;
 
       if ($v->actual != null)
-        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+        $actuals[$getDateNumber] = $actuals[$getDateNumber] + 1;
 
       if ($v->datetime == $v->actual)
-        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+        $ontimes[$getDateNumber] = $ontimes[$getDateNumber] + 1;
      }
 
     $schedule = DB::table('schedules')
@@ -382,14 +382,14 @@ class PerformaController extends Controller
     $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
     foreach ($sch as $v) {
-      $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
-      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
+      $getDateNumber = date("d", strtotime($v->datetime)) - 1;
+      $plans[$getDateNumber] = $plans[$getDateNumber] + 1;
 
       if ($v->actual != null)
-        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+        $actuals[$getDateNumber] = $actuals[$getDateNumber] + 1;
 
       if ($v->datetime == $v->actual)
-        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+        $ontimes[$getDateNumber] = $ontimes[$getDateNumber] + 1;
      }
 
     $schedule = DB::table('schedules')

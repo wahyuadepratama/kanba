@@ -99,37 +99,47 @@
 <script type="text/javascript">
 
   function storeCoach() {
-    swal({
-      text: "Please waiting...",
-      buttons: false
-    });
-
     var name = $('#name').val();
     var nik = $('#nik').val();
     var phone = $('#phone').val();
-    $('#name').val('');
-    $('#nik').val('');
-    $('#phone').val('');
 
-    $.ajax({ /* THEN THE AJAX CALL */
-      url: "/admin/bapak-asuh/store",
-      method : "POST",
-      data:{'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
-      async : true,
-      dataType : 'text',
-      success: function(data){
-        $('#dataTable').dataTable().fnClearTable();
-        $('#dataTable').DataTable().destroy();
-        $('#dataTable').find('tbody').append(data);
-        $('#dataTable').DataTable().draw();
-        swal({
-          icon: "success",
-          text: "Data baru berhasil ditambahkan !",
-          buttons: false,
-          timer: 2000
-        });
-      }
-    });
+    if (nik == "" || name == "" || phone == "") {
+      swal({
+        icon: "warning",
+        text: "Harap isi semua data dengan lengkap!",
+        buttons: false,
+        timer: 2000
+      });
+    }else{
+      swal({
+        text: "Please waiting...",
+        buttons: false
+      });
+
+      $('#name').val('');
+      $('#nik').val('');
+      $('#phone').val('');
+
+      $.ajax({ /* THEN THE AJAX CALL */
+        url: "/admin/bapak-asuh/store",
+        method : "POST",
+        data:{'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
+        async : true,
+        dataType : 'text',
+        success: function(data){
+          $('#dataTable').dataTable().fnClearTable();
+          $('#dataTable').DataTable().destroy();
+          $('#dataTable').find('tbody').append(data);
+          $('#dataTable').DataTable().draw();
+          swal({
+            icon: "success",
+            text: "Data baru berhasil ditambahkan !",
+            buttons: false,
+            timer: 2000
+          });
+        }
+      });
+    }
   }
 
   function showModal(name, nik, phone) {
@@ -140,37 +150,47 @@
   }
 
   function updateCoach(currentNik) {
-    swal({
-      text: "Please waiting...",
-      buttons: false
-    });
-
     var name = $('#editname').val();
     var nik = $('#editnik').val();
     var phone = $('#editphone').val();
-    $('#editname').val('');
-    $('#editnik').val('');
-    $('#editphone').val('');
 
-    $.ajax({ /* THEN THE AJAX CALL */
-      url: "/admin/bapak-asuh/update",
-      method : "POST",
-      data:{'current': currentNik, 'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
-      async : true,
-      dataType : 'text',
-      success: function(data){
-        $('#dataTable').dataTable().fnClearTable();
-        $('#dataTable').DataTable().destroy();
-        $('#dataTable').find('tbody').append(data);
-        $('#dataTable').DataTable().draw();
-        swal({
-          icon: "success",
-          text: "Data berhasil diupdate !",
-          buttons: false,
-          timer: 2000
-        });
-      }
-    });
+    if (nik == "" || name == "" || phone == "") {
+      swal({
+        icon: "warning",
+        text: "Harap isi semua data dengan lengkap!",
+        buttons: false,
+        timer: 2000
+      });
+    }else{
+      swal({
+        text: "Please waiting...",
+        buttons: false
+      });
+
+      $('#editname').val('');
+      $('#editnik').val('');
+      $('#editphone').val('');
+
+      $.ajax({ /* THEN THE AJAX CALL */
+        url: "/admin/bapak-asuh/update",
+        method : "POST",
+        data:{'current': currentNik, 'name': name, 'nik': nik, 'phone': phone, _token: '{{csrf_token()}}'},
+        async : true,
+        dataType : 'text',
+        success: function(data){
+          $('#dataTable').dataTable().fnClearTable();
+          $('#dataTable').DataTable().destroy();
+          $('#dataTable').find('tbody').append(data);
+          $('#dataTable').DataTable().draw();
+          swal({
+            icon: "success",
+            text: "Data berhasil diupdate !",
+            buttons: false,
+            timer: 2000
+          });
+        }
+      });
+    }
   }
 
   function destroyConfirm(nik, name){
