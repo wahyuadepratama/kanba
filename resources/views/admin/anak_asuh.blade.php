@@ -103,7 +103,7 @@
     var nik = $('#nik').val();
     var phone = $('#phone').val();
 
-    if (name = "" || nik == "") {
+    if (name == "" || nik == "") {
       swal({
         icon: "warning",
         text: "Nama dan NIK tidak boleh kosong!",
@@ -153,7 +153,7 @@
     var nik = $('#editnik').val();
     var phone = $('#editphone').val();
 
-    if (name = "" || nik == "") {
+    if (name == "" || nik == "") {
       swal({
         icon: "warning",
         text: "Nama dan NIK tidak boleh kosong!",
