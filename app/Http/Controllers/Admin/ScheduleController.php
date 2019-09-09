@@ -67,7 +67,8 @@ class ScheduleController extends Controller
     {
       $relationship = CoachTrainee::where('month', $month)->where('year', $year)->get();
       $schedule = Schedule::whereMonth('datetime', $month)->whereYear('datetime', $year)->get();
-
+      $this->convertDateToHumans($schedule);
+      
       foreach($relationship as $r)
         if($r->coach_nik == $nik){
           echo '- '.$r->trainee->name." : ";
@@ -75,9 +76,9 @@ class ScheduleController extends Controller
           foreach($schedule as $s){
             if($s->relationship_id == $r->id){
               if($s->status == "ongoing")
-                echo $s->datetime .'\n';
+                echo $s->datetime ."\n";
               else
-                echo $s->actual .'\n';
+                echo $s->actual ."\n";
 
               $found = true;
             }

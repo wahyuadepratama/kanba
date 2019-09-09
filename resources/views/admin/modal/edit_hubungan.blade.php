@@ -1,4 +1,4 @@
-<!-- Modal -->
+  <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -15,7 +15,18 @@
                 <label for="exampleFormControlSelect1">Data anak asuh</label>
                 <select id="traineeData" class="js-example-basic-multiple" style="width: 100% !important" name="trainee[]" multiple="multiple">
                   @forelse(\App\Models\User::where('role_id', 3)->orWhere('role_id', 2)->get(); as $trainee)
-                  <option value="{{ $trainee->nik }}">{{ $trainee->name }} ({{ $trainee->nik }})</option>
+
+                    @php $found = 0 @endphp
+                    @foreach($relationship as $r)
+                      @if($r->trainee_nik == $trainee->nik)
+                        @php $found = 1 @endphp
+                      @endif                      
+                    @endforeach
+
+                    @if($found == 0)
+                      <option value="{{ $trainee->nik }}">{{ $trainee->name }} ({{ $trainee->nik }})</option>
+                    @endif
+
                   @empty
                   <p>Belum ada anak asuh !</p>
                   @endforelse

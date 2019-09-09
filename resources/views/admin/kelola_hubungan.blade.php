@@ -23,10 +23,10 @@
 <br>
 <div class="card shadow">
   <div class="card-body">
-    Keterangan:
+    <p>Keterangan:</p>
     <ul>
       <li>Pilih bulan dan tahun sebelum memasukan data anak asuh</li>
-      <li>Pilih <b>update</b> untuk menambahkan anak asuh sesuai dengan bapak asuhnya</li>      
+      <li>Pilih <b>update</b> untuk menambahkan anak asuh sesuai dengan bapak asuhnya</li>
       <li><b>Tambah Data</b> digunakan untuk menjadikan anak asuh sebagai bapak asuh sehingga dapat dibuatkan jadwalnya</li>
     </ul>
   </div>
@@ -171,6 +171,13 @@
 <script type="text/javascript">
 
   function updateTrainee(nik) {
+
+    swal({
+      text: "Sinkronisasi data ...",
+      buttons: false,
+      timer: 2000
+    });
+
     var month = $('#month').val();
     var year = $('#year').val();
     $.ajax({ /* THEN THE AJAX CALL */
@@ -179,7 +186,12 @@
       data:{'nik': nik, 'month': month, 'year': year , _token: '{{csrf_token()}}'},
       async : true,
       success: function(data){
-        $('#traineeData').val(data).trigger('change');
+
+        $("#traineeData option:selected").remove();
+        for (var i = 0; i < data[1].length; i++) {
+          $('#traineeData').append( '<option value="'+data[0][i]+'">'+data[1][i]+'</option>' );
+        }
+        $('#traineeData').val(data[0]).trigger('change');
         $('#saveChanges').attr('onclick', 'storeUpdate(\''+ nik +'\')');
       }
     });
