@@ -19,45 +19,39 @@
 <h1 class="h4 mb-2 text-gray-800"><i class="fas fa-fw fa-tachometer-alt"></i> Performa</h1><br>
 <div class="grid-performa">
   <div class="grid-performa-1">
-    <select class="form-control btn-sm" id="year" onchange="changeYearMonth()">
+    <select class="form-control btn-sm" id="type" onchange="filter()">
+      <option value="yearly">Yearly Grafik</option>
+      <option value="monthly">Monthly Grafik</option>
+      <option value="compliance">Compliance</option>
+      <option value="ranking">Ranking</option>
+    </select>
+  </div>
+  <div class="grid-performa-2">
+    <select class="form-control btn-sm" id="year" onchange="filter()">
       <option value="2019">2019</option>
       <option value="2020">2020</option>
       <option value="2021">2021</option>
       <option value="2022">2022</option>
     </select>
   </div>
-  <div class="grid-performa-2">
-    <select class="form-control btn-sm" id="type">
-      <option value="monthly" selected>Monthly Grafik</option>
-      <option value="ranking">Ranking</option>
-      <option value="compliance">Compliance</option>
-    </select>
-  </div>
   <div class="grid-performa-3 text-center">
     <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
-      @php $no=1; $anakasuh=0; $terlaksana=0; @endphp
+      @php $no=1; $rencana=0; $terlaksana=0; $tepatwaktu=0 @endphp
       @for ($i=0; $i < count($rank); $i++)
-        @php $anakasuh = $anakasuh + $rank[$i]['trainee'] @endphp
+        @php $rencana = $rencana + $rank[$i]['plan'] @endphp
         @php $terlaksana = $terlaksana + $rank[$i]['coaching'] @endphp
+        @php $tepatwaktu = $tepatwaktu + $rank[$i]['actual'] @endphp
       @endfor
-      @if($_GET && $terlaksana != 0 && $anakasuh != 0)
-        @if($_GET['month'] == 'all')
-          <span class="text">Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</span>
-        @else
-          <span class="text">Achievement : {{ number_format($terlaksana/$anakasuh * 100, 1) }}%</span>
-        @endif
+
+      @if($terlaksana != 0 && $rencana != 0)
+      <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
       @else
-        @if($terlaksana != 0 && $anakasuh != 0)
-        <span class="text">Achievement : {{ number_format(($terlaksana/$anakasuh * 100)/12, 1) }}%</span>
-        @else
-        <span class="text">Achievement : 0 %</span>
-        @endif
+      <span class="text">Achievement : 0 %</span>
       @endif
     </a>
   </div>
   <div class="grid-performa-4">
-    <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
-      <option value="all">Semua Bulan (1 Tahun)</option>
+    <select class="form-control btn-sm" id="month" onchange="filter()">
       <option value="1">Januari</option>
       <option value="2">Febuari</option>
       <option value="3">Maret</option>
@@ -73,9 +67,9 @@
     </select>
   </div>
   <div class="grid-performa-5">
-    <select class="form-control btn-sm" id="coach" onchange="changeYearMonth()">
+    <select class="form-control btn-sm" id="coach" onchange="filter()">
       <option value="all">Semua Coach</option>
-      @foreach(\App\Models\User::where('role_id', 2)->get() as $coach)
+      @foreach(\App\Models\User::where('role_id', 2)->orderBy('name')->get() as $coach)
         <option value="{{ $coach->nik }}">{{ $coach->name }} ({{ $coach->nik }})</option>
       @endforeach
     </select>
@@ -93,24 +87,11 @@
   </div>
   <div class="grid-performa-6 text-center">
     <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
-    @php $no=1; $actual=0; $plan=0; @endphp
-    @for ($i=0; $i < count($rank); $i++)
-      @php $actual = $actual + $rank[$i]['actual'] @endphp
-      @php $plan = $plan + $rank[$i]['plan'] @endphp
-    @endfor
-    @if($_GET && $actual != 0 && $plan != 0)
-      @if($_GET['month'] == 'all')
-        <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
-      @else
-        <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
-      @endif
-    @else
-      @if($actual != 0 && $plan != 0)
-      <span class="text">Compliance : {{ number_format($actual/$plan * 100, 1) }}%</span>
+      @if($terlaksana != 0 && $tepatwaktu != 0)
+      <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
       @else
       <span class="text">Compliance : 0 %</span>
       @endif
-    @endif
     </a>
   </div>
 
@@ -123,13 +104,12 @@
       <canvas id="myAreaChart"></canvas>
     </div>
     <div class="table-responsive" id="myRanking">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th style="width:20px !important">No</th>
             <th>Nama</th>
             <th>NIK</th>
-            <th>Anak Asuh</th>
             <th>Terjadwal</th>
             <th>Terlaksana</th>
             <th>Achievement</th>
@@ -142,7 +122,6 @@
             <td class="td-ranking" data-th="#">{{ $no++ }}</td>
             <td class="td-ranking">{{ $rank[$i]['coach'] }}</td>
             <td class="td-ranking">{{ $rank[$i]['nik'] }}</td>
-            <td class="td-ranking">{{ $rank[$i]['trainee'] }} orang</td>
             <td class="td-ranking">{{ $rank[$i]['plan'] }} x</td>
             <td class="td-ranking">{{ $rank[$i]['coaching'] }} x</td>
             <td class="td-ranking">{{ number_format($rank[$i]['archivement'], 1) }}%</td>
@@ -152,7 +131,7 @@
       </table>
     </div>
     <div class="table-responsive" id="compliance">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th style="width:20px !important">No</th>
@@ -205,9 +184,6 @@
 <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-<!-- Page level custom scripts -->
-<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
-
 <script type="text/javascript">
 
   // Area Chart Example
@@ -217,7 +193,7 @@
     data: {
       labels: [<?php echo '"'.implode('","', $label).'"' ?>],
       datasets: [{
-        label: "Terjadwal",
+        label: "Persentase Pelaksanaan",
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -229,15 +205,16 @@
         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [<?php echo '"'.implode('","', $data).'"' ?>],
+        data: [<?php echo '"'.implode('","', $actuals).'"' ?>],
       },{
-        data: [<?php echo '"'.implode('","', $data2).'"' ?>],
-        label: "Actual",
+        data: [<?php echo '"'.implode('","', $ontimes).'"' ?>],
+        label: "Persentase Compliance",
         borderColor: "#f44336",
         fill: false
       }],
     },
     options: {
+      responsive: true,
       maintainAspectRatio: false,
       layout: {
         padding: {
@@ -247,6 +224,10 @@
           bottom: 0
         }
       },
+      title: {
+          display: true,
+          text: 'https://coachingbuma.com'
+        },
       scales: {
         xAxes: [{
           time: {
@@ -308,7 +289,8 @@
   @if($_GET)
 
     @if($_GET['month'] == null)
-        $('#month').val("all");
+        var
+        d.getMonth()+1
     @else
         $('#month').val('{{ $_GET['month'] }}');
         $('#coach').val('{{ $_GET['coach'] }}');
@@ -333,22 +315,16 @@
       $("#myRanking").hide();
       $("#compliance").hide();
       $('#export').hide();
+      $('#month').hide();
       var type = $('#export').attr('href');
 
       $("#type").change(function(){
 
         var selected = $(this). children("option:selected"). val();
         switch (selected) {
-          case "ranking":
-              $(".chart-area").hide();
-              $('#export').show();
-              $('#export').attr('href', type + '&type=archivement');
-              $("#coach").hide();
-              $("#myRanking").show();
-              $("#compliance").hide();
-            break;
-          case "monthly":
+          case "yearly":
               $(".chart-area").show();
+              $('#month').hide();
               $('#export').hide();
               $("#coach").show();
               $("#myRanking").hide();
@@ -356,8 +332,28 @@
               $("#selectWeekMonth").show();
               $("#achievementResult").show();
             break;
+          case "monthly":
+              $(".chart-area").show();
+              $('#month').show();
+              $('#export').hide();
+              $("#coach").show();
+              $("#myRanking").hide();
+              $("#compliance").hide();
+              $("#selectWeekMonth").show();
+              $("#achievementResult").show();
+            break;
+          case "ranking":
+              $(".chart-area").hide();
+              $('#month').show();
+              $('#export').show();
+              $('#export').attr('href', type + '&type=archivement');
+              $("#coach").hide();
+              $("#myRanking").show();
+              $("#compliance").hide();
+            break;
           case "compliance":
               $("#compliance").show();
+              $('#month').show();
               $('#export').show();
               $('#export').attr('href', type + '&type=compliance');
               $("#coach").hide();
@@ -373,11 +369,24 @@
     });
   });
 
-  function changeYearMonth() {
+  function filter() {
     var month = $('#month').val();
     var year = $('#year').val();
     var coach = $('#coach').val();
-    window.location.href = "/admin/performa?month="+month+"&year="+year+"&coach="+coach;
+    var type = $('#type').val();
+    if (type == "yearly") {
+      window.location.href = "/admin/performa?type=yearly&coach="+coach+"&year="+year;
+    }else if (type == "monthly") {
+      window.location.href = "/admin/performa?type=yearly&coach="+coach+"&year="+year+"&month="+month;
+    }
   }
+
+  $(document).ready(function() {
+    $('#dataTable1').DataTable();
+  });
+
+  $(document).ready(function() {
+    $('#dataTable2').DataTable();
+  });
 </script>
 @endsection

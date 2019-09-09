@@ -33,25 +33,35 @@ class PerformaController extends Controller
     }
   }
 
-
-
-
-
-
   public function getAllData()
   {
     $sch = Schedule::whereYear('datetime', date('Y'))->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    $data = [0,0,0,0,0,0,0,0,0,0,0,0];
-    $data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    $plans = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $actuals = [0,0,0,0,0,0,0,0,0,0,0,0];
+    $ontimes = [0,0,0,0,0,0,0,0,0,0,0,0];
+
     foreach ($sch as $v) {
       $getMonthNumber = date("m", strtotime($v->datetime)) - 1;
-      $data[$getMonthNumber] = $data[$getMonthNumber] + 1;
+      $plans[$getMonthNumber] = $plans[$getMonthNumber] + 1;
 
-      if ($v->datetime == $v->actual) {
-        $data2[$getMonthNumber] = $data2[$getMonthNumber] + 1;
-      }
-    }
+      if ($v->actual != null)
+        $actuals[$getMonthNumber] = $actuals[$getMonthNumber] + 1;
+
+      if ($v->datetime == $v->actual)
+        $ontimes[$getMonthNumber] = $ontimes[$getMonthNumber] + 1;
+     }
+
+     for ($i=0; $i < count($ontimes); $i++){
+       if ($ontimes[$i] != 0 && $actuals[$i] != 0)
+         $ontimes[$i] = $ontimes[$i]/$actuals[$i] * 100;
+     }
+
+     for ($i=0; $i < count($actuals); $i++){
+       if ($actuals[$i] != 0 && $plans[$i] != 0)
+         $actuals[$i] = $actuals[$i]/$plans[$i] * 100;
+     }
 
     $schedule = DB::table('schedules')
                    ->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
@@ -63,45 +73,38 @@ class PerformaController extends Controller
     $coach = User::where('role_id', 2)->get();
     $coachTrainee = CoachTrainee::all();
 
-    $coaching = 0;
-    $trainee = 0;
     $plan = 0;
+    $coaching = 0;
     $actual = 0;
     $rank = [];
     $compliance = [];
 
     foreach ($coach as $c) {
-      foreach ($coachTrainee as $ct) {
-        if ($c->nik == $ct->coach_nik)
-          $trainee++;
-      }
 
       foreach ($schedule as $s) {
         if ($c->nik == $s->coach_nik) {
           $plan++;
           if ($s->actual != null)
             $coaching++;
-
           if ($s->actual == $s->datetime)
             $actual++;
         }
       }
 
-      if ($trainee != 0 && $coaching != 0)
-        $archivement = (($coaching/$trainee) * 100)/12;
+      if ($plan != 0 && $coaching != 0)
+        $archivement = ($coaching/$plan) * 100;
       else
         $archivement = 0;
 
-      if ($plan != 0 && $actual != 0)
-        $compliance = ($actual/$plan) * 100;
+      if ($coaching != 0 && $actual != 0)
+        $compliance = ($actual/$coaching) * 100;
       else
         $compliance = 0;
 
       array_push($rank, ['nik' => $c->nik, 'coach' => $c->name, 'archivement' => $archivement, 'compliance' => $compliance,
-                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan, 'trainee' => $trainee]);
+                         'coaching' => $coaching, 'actual' => $actual, 'plan' => $plan]);
 
       $coaching = 0;
-      $trainee = 0;
       $plan = 0;
       $actual = 0;
     }
@@ -110,7 +113,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('data', 'rank', 'label', 'data2'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
   }
 
 

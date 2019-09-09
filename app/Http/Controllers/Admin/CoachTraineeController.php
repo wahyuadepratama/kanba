@@ -38,10 +38,23 @@ class CoachTraineeController extends Controller
     }
 
     public function getTrainee(Request $request){
-      $data = CoachTrainee::where('coach_nik', $request->nik)->select('trainee_nik')->where('month', $request->month)->where('year', $request->year)->get();
-      $result= [];
+      $data = CoachTrainee::where('coach_nik', $request->nik)->select('trainee_nik')
+            ->where('month', $request->month)
+            ->where('year', $request->year)
+            ->get();
+
+      $result = [];
+      $name = [];
+      $nik = [];
+      
       foreach ($data as $key)
-        array_push($result, $key->trainee_nik);
+        array_push($nik, $key->trainee_nik);
+
+      foreach ($data as $key)
+        array_push($name, $key->trainee->name);
+
+      $result[0] = $nik;
+      $result[1] = $name;
 
       return $result;
     }
