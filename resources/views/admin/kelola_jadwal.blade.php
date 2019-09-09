@@ -50,7 +50,7 @@
     </div>
     <br>
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
@@ -63,9 +63,9 @@
           @php $no = 1 @endphp
           @foreach($coach as $c)
             <tr>
-              <td>{{ $no++ }}</td>
-              <td>{{ $c->name }} ({{ $c->nik }})</td>
-              <td>
+              <td data-th="No  &#xa;">{{ $no++ }}</td>
+              <td data-th="Nama Bapak Asuh  &#xa;">{{ $c->name }} ({{ $c->nik }})</td>
+              <td data-th="Anak Asuh  &#xa;">
                 <ul>
                   @php $find = false @endphp
                   @forelse($relationship as $r)
@@ -106,6 +106,7 @@
                 <a class="btn btn-sm btn-success" href="#" data-toggle="modal" data-target="#remindermanual"
                 onclick="manual('{{ $c->nik }}','{{ $c->name }}')">
                   Reminder</a>
+                  <hr class="d-md-none">
               </td>
             </tr>
           @endforeach

@@ -91,7 +91,7 @@
     </div><br>
 
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
@@ -106,11 +106,11 @@
           @php $no = 1 @endphp
           @foreach($coach as $d)
             <tr>
-              <td>{{ $no++ }}</td>
-              <td>{{ $d->nik }}</td>
-              <td>{{ $d->name }}</td>
-              <td>{{ $d->phone }}</td>
-              <td>
+              <td data-th="No  &#xa;">{{ $no++ }}</td>
+              <td data-th="NIK  &#xa;">{{ $d->nik }}</td>
+              <td data-th="Nama Bapak Asuh  &#xa;">{{ $d->name }}</td>
+              <td data-th="No WhatsApp  &#xa;">{{ $d->phone }}</td>
+              <td data-th="Anak Asuh  &#xa;">
                 <ul>
                   @php $find = false @endphp
 

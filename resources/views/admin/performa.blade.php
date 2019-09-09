@@ -104,7 +104,7 @@
       <canvas id="myAreaChart"></canvas>
     </div>
     <div class="table-responsive" id="myRanking">
-      <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+      <table class="table table-bordered mycustom" id="dataTable1" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th style="width:20px !important">No</th>

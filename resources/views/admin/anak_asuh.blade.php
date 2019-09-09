@@ -32,7 +32,7 @@
   </div> -->
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
@@ -46,13 +46,14 @@
           @php $no=1 @endphp
           @forelse($trainee as $c)
           <tr>
-            <td>{{ $no++ }}</td>
-            <td>{{ $c->name }}</td>
-            <td>{{ $c->nik }}</td>
-            <td>{{ \Carbon\Carbon::parse($c->created_at)->diffForHumans() }}</td>
+            <td data-th="No  &#xa;">{{ $no++ }}</td>
+            <td data-th="Nama Anak Asuh &#xa;">{{ $c->name }}</td>
+            <td data-th="NIK  &#xa;">{{ $c->nik }}</td>
+            <td data-th="Bergabung Sejak  &#xa;">{{ \Carbon\Carbon::parse($c->created_at)->diffForHumans() }}</td>
             <td>
               <a class="btn btn-google btn-sm" href="#" onclick="destroyConfirm('{{ $c->nik }}', '{{ $c->name }}')"> Hapus</a>
               <a class="btn btn-warning btn-sm" href="#" onclick="showModal('{{ $c->name }}', '{{ $c->nik }}', '{{ $c->phone }}')" data-toggle="modal" data-target="#editBapakAsuh">Edit</a>
+              <hr class="d-md-none">
             </td>
           </tr>
           @empty
@@ -142,7 +143,7 @@
       text: "Please waiting...",
       buttons: false
     });
-    
+
     var name = $('#editname').val();
     var nik = $('#editnik').val();
     var phone = $('#editphone').val();

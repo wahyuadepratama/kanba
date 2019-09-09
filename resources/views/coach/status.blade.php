@@ -94,7 +94,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
 
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
@@ -122,7 +122,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
               </td>
               <td>
                 @if($t->status == 'ongoing')
-                  <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
+                  <!-- <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                       <input type="file" name="file" required class="btn btn-sm form-control">
@@ -136,7 +136,15 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
                        <button type="submit" class="form-control btn btn-sm btn-success">Upload</button>
                      </div>
                     <input type="hidden" name="id" value="{{ $t->id }}">
-                  </form>
+                  </form> -->
+                  <center>
+                  <a class="btn btn-primary btn-sm from-control" href="#" data-toggle="modal" data-target="#uploadPhoto">
+                     <span class="icon text-white-50">
+                       <i class="fas fa-plus"></i>
+                     </span>
+                     <span class="text">Upload Foto</span>
+                   </a>
+                 </center>
                 @else
                   <p style="text-align:center">Sudah Diupload !</p>
                 @endif
@@ -151,6 +159,8 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
   </div>
 </div>
 </div>
+
+@include('coach.modal.upload_foto')
 
 @endsection
 
@@ -208,5 +218,30 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
     }
 
   </script>
+
+  <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker11').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                }
+            });
+        });
+
+        $('#chooseFile').bind('change', function () {
+        var filename = $("#chooseFile").val();
+        if (/^\s*$/.test(filename)) {
+          $(".file-upload").removeClass('active');
+          $("#noFile").text("No file chosen...");
+        }
+        else {
+          $(".file-upload").addClass('active');
+          $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
+        }
+      });
+    </script>
 
 @endsection
