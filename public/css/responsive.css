@@ -1,6 +1,6 @@
  /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
-  td.td-ranking, th{
+  table.mycustom td.td-ranking,   table.mycustom th{
       display: inline;
       font-size: 0.7em !important;
       float: left;
@@ -33,38 +33,38 @@
        max-width: unset;
    }
 
-   td:first-child{
+   table.mycustom td:first-child{
      display: none
    }
 
-   thead th {
+   table.mycustom thead th {
        display: none;
    }
-   td, th{
+   table.mycustom td,table.mycustom th{
        display: block;
    }
-   .table-bordered td{
+   table.mycustom td{
      border: 0px;
    }
 
-   td:last-child{
+   table.mycustom td:last-child{
      text-align: right;
    }
-   td.td-img{
+   table.mycustom td.td-img{
      text-align: center;
    }
 
-   td[data-th]:before  {
+   table.mycustom td[data-th]:before  {
        content: attr(data-th);
        white-space: pre-line;
        font-weight: bold;
    }
-   td.td-ranking, th{
+   table.mycustom td.td-ranking, table.mycustom th{
        display: inline;
        font-size: 0.9em;
        float: left;
    }
-   td.td-ranking[data-th]:before  {
+   table.mycustom td.td-ranking[data-th]:before  {
        content: attr(data-th);
        white-space: pre-line;
        font-weight: bold;

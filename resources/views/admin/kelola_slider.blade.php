@@ -108,7 +108,7 @@
 <div class="card shadow mb-4">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table mycustom">
         <thead>
           <th>No</th>
           <th>Image</th>
@@ -121,18 +121,19 @@
           <form action="{{ url('admin/kelola-slider/update/'. $img->photo) }}" method="post" enctype="multipart/form-data">
             @csrf
             <tr>
-              <td>{{ $no++ }}</td>
+              <td data-th="No  &#xa;">{{ $no++ }}</td>
               <td class="img-column">
                 <img id="myImg{{ $img->id }}" src="{{ url('img/'. $img->photo) }}" alt="" class="img-slider-table">
               </td>
-              <td>{{ $img->name }}</td>
-              <td>
+              <td data-th="Name  &#xa;">{{ $img->name }}</td>
+              <td data-th="Update">
                 <div class="custom-file">
                   <input type="file" name="file" required>
                 </div>
               </td>
               <td>
                 <button type="submit" class="btn btn-sm btn-warning form-control" name="button">Upload</button>
+                <hr class="d-md-none">
               </td>
             </tr>
           </form>

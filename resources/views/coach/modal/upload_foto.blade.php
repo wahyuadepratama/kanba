@@ -1,4 +1,6 @@
 <!-- Modal -->
+
+
 <div class="modal fade" id="uploadPhoto" tabindex="-1" role="dialog" aria-labelledby="uploadPhotoTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -8,35 +10,48 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
+  <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
       <div class="modal-body">
         <div class="form-group">
-          <form action="{{ url('coach-status/upload') }}" method="post" enctype="multipart/form-data">
+
             @csrf
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <button type="submit" class="input-group-text">Upload</button>
-              </div>
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01" name="file"
-                  aria-describedby="inputGroupFileAddon01" required accept="image/*" capture>
-                <label class="custom-file-label" for="inputGroupFile01"></label>
-              </div>
-            </div><br>
             <div class="form-group">
+              <div class="file-upload">
+                  <div class="file-select">
+                    <div class="file-select-button" id="fileName">Choose File</div>
+                    <div class="file-select-name" id="noFile">No file chosen...</div>
+                    <input type="file" name="file" id="chooseFile">
+                  </div>
+                </div>
+            </div>
+
+            <!-- <div class="form-group" style="padding-right: 10px; padding-left: 10px">
               <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                 <input type="date" id="jadwal" class="form-control datetimepicker-input" placeholder="Actual Coaching" required name="schedule"/>                 
-               </div>
-             </div>
+                <input placeholder="Actual Coaching" class="form-control input-sm" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" required name="schedule">
+              </div>
+             </div> -->
+
+             <div class="form-group">
+            <div class="input-group date" id="datetimepicker11" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" id="jadwal" data-target="#datetimepicker11"/>
+                <div class="input-group-append" data-target="#datetimepicker11" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+            <!-- <div class="form-group" style="padding-right: 10px; padding-left: 10px">
+              <button type="submit" class="form-control btn btn-sm btn-success">Upload</button>
+            </div> -->
+
+        </div>
             <input type="hidden" name="id" value="{{ $t->id }}">
-          </form>
+
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="addButton" type="button" class="btn btn-primary" data-dismiss="modal">Tambahkan</button>
+        <button id="addButton" type="submit" class="btn btn-primary" data-dismiss="modal">Tambahkan</button>
       </div>
-
+  </form>
     </div>
   </div>
 </div>
