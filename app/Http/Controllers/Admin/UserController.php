@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
    public function indexCoach(){
-     $coach = User::where('role_id', 2)->orderBy('created_at', 'desc')->get();
+     $coach = User::where('role_id', 2)->orderBy('name', 'asc')->get();
      return view('admin.bapak_asuh')->with(compact('coach'));
    }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
    }
 
    public function indexTrainee(){
-     $trainee = User::where('role_id', 3)->orderBy('created_at', 'desc')->get();
+     $trainee = User::where('role_id', 3)->orderBy('name', 'asc')->get();
      return view('admin.anak_asuh')->with(compact('trainee'));
    }
 
@@ -90,7 +90,7 @@ class UserController extends Controller
 
    public function reloadTrainee()
    {
-     $data = User::where('role_id', 3)->get();
+     $data = User::where('role_id', 3)->orderBy('name', 'asc')->get();
      $no = 1;
      foreach ($data as $key) {
        echo '<tr>
