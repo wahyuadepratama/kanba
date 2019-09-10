@@ -69,6 +69,10 @@ class LoginController extends Controller
         $credentials = $request->only('nik', 'password');
         if (\Auth::guard('web')->attempt($credentials)) {
           $nik = User::where('nik', $request->nik)->first();
+
+          if ($nik->access == 1)
+            $nik->role_id = 1;
+
           switch ($nik->role_id) {
             case 1:
               session(['login' => $nik]);
