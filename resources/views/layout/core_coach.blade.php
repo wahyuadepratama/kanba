@@ -133,7 +133,17 @@
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.js') }}"></script>
     @yield('javascript')
+
+    <script type="text/javascript">
+      $( document ).ready(function() {
+        if ($(window).width() <= 768) {
+          $("body").toggleClass("sidebar-toggled");
+          $(".sidebar").toggleClass("toggled");
+        }
+      });
+    </script>
+
   </body>
 </html>
