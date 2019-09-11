@@ -18,10 +18,12 @@
     margin-right: auto !important;
   }
 
-
  }
 
  @media (max-width: 768px) {
+   .row .col-md-2{
+     margin-bottom: 15px;
+   }
    .d-block-none{
      display: none !important;
    }
