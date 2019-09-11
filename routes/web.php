@@ -20,7 +20,9 @@ Route::get('/admin-login', 'Auth\LoginController@adminLoginForm');
 Route::post('/login',  'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-
+Route::get('/reminder/three-days', 'Admin\ReminderController@reminderThreeDays');
+Route::get('/reminder/two-days', 'Admin\ReminderController@reminderTwoDays');
+Route::get('/reminder/one-day', 'Admin\ReminderController@reminderOneDay');
 
 Route::group(['middleware' => ['auth','auth.admin']], function(){
 
