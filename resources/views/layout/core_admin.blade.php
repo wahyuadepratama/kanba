@@ -76,6 +76,11 @@
           <i class="fas fa-users"></i>
           <span>Data Anak Asuh</span></a>
       </li>
+      <li class="nav-item @yield('active-gallery')">
+        <a class="nav-link" href="/admin/gallery-coaching">
+          <i class="fas fa-image"></i>
+          <span>Gallery Coaching</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
