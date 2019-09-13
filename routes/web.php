@@ -52,6 +52,9 @@ Route::group(['middleware' => ['auth','auth.admin']], function(){
   Route::post('/admin/anak-asuh/store', 'Admin\UserController@storeTrainee');
   Route::post('/admin/anak-asuh/update', 'Admin\UserController@updateTrainee');
   Route::get('/admin/anak-asuh/destroy/{nik}', 'Admin\UserController@destroyTrainee');
+
+  Route::get('/admin/gallery-coaching', 'Admin\GalleryController@index');
+  Route::post('admin/gallery-coaching/filter', 'Admin\GalleryController@filter');
 });
 
 
