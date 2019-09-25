@@ -111,9 +111,9 @@
                 @endfor
 
                 @if($terlaksana != 0 && $rencana != 0)
-                <span class="text">Achievement All Coach : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+                <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
                 @else
-                <span class="text">Achievement All Coach : 0 %</span>
+                <span class="text">Achievement : 0 %</span>
                 @endif
                 </a>
               </div>
