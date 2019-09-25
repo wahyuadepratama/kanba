@@ -44,9 +44,9 @@
       @endfor
 
       @if($terlaksana != 0 && $rencana != 0)
-      <span class="text">Achievement All Coach : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+      <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
       @else
-      <span class="text">Achievement All Coach : 0 %</span>
+      <span class="text">Achievement : 0 %</span>
       @endif
     </a>
   </div>
@@ -95,9 +95,9 @@
   <div class="grid-performa-6 text-center">
     <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
       @if($terlaksana != 0 && $tepatwaktu != 0)
-      <span class="text">Compliance All Coach : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
+      <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
       @else
-      <span class="text">Compliance All Coach : 0 %</span>
+      <span class="text">Compliance : 0 %</span>
       @endif
     </a>
   </div>
