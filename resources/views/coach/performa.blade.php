@@ -103,18 +103,11 @@
               </div>
               <div class="form-group" id="achievementResult">
                 <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
-                @php $no=1; $rencana=0; $terlaksana=0; $tepatwaktu=0 @endphp
                 @for ($i=0; $i < count($rank); $i++)
-                  @php $rencana = $rencana + $rank[$i]['plan'] @endphp
-                  @php $terlaksana = $terlaksana + $rank[$i]['coaching'] @endphp
-                  @php $tepatwaktu = $tepatwaktu + $rank[$i]['actual'] @endphp
+                  @if($rank[$i]['nik'] == session('login')->nik)
+                    <span class="text">Achievement : {{ number_format($rank[$i]['archivement'], 1) }}%</span>
+                  @endif
                 @endfor
-
-                @if($terlaksana != 0 && $rencana != 0)
-                <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
-                @else
-                <span class="text">Achievement : 0 %</span>
-                @endif
                 </a>
               </div>
             </div>
