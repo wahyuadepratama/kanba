@@ -43,10 +43,26 @@
         @php $tepatwaktu = $tepatwaktu + $rank[$i]['actual'] @endphp
       @endfor
 
-      @if($terlaksana != 0 && $rencana != 0)
-      <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+      @if($_GET)
+        @if($_GET['coach'] != 'all')
+          @for ($i=0; $i < count($rank); $i++)
+            @if($rank[$i]['nik'] == $_GET['coach'])
+              <span class="text">Achievement : {{ number_format($rank[$i]['archivement'], 1) }} %</span>
+            @endif
+          @endfor
+        @else
+          @if($terlaksana != 0 && $rencana != 0)
+          <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+          @else
+          <span class="text">Achievement : 0 %</span>
+          @endif
+        @endif
       @else
-      <span class="text">Achievement : 0 %</span>
+        @if($terlaksana != 0 && $rencana != 0)
+        <span class="text">Achievement : {{ number_format($terlaksana/$rencana * 100, 1) }}%</span>
+        @else
+        <span class="text">Achievement : 0 %</span>
+        @endif
       @endif
     </a>
   </div>
@@ -94,10 +110,26 @@
   </div>
   <div class="grid-performa-6 text-center">
     <a class="form-control btn btn-primary btn-sm btn-icon-split" href="#">
-      @if($terlaksana != 0 && $tepatwaktu != 0)
-      <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
+      @if($_GET)
+        @if($_GET['coach'] != 'all')
+          @for ($i=0; $i < count($rank); $i++)
+            @if($rank[$i]['nik'] == $_GET['coach'])
+              <span class="text">Compliance : {{ number_format($rank[$i]['compliance'], 1) }} %</span>
+            @endif
+          @endfor
+        @else
+          @if($terlaksana != 0 && $tepatwaktu != 0)
+          <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
+          @else
+          <span class="text">Compliance : 0 %</span>
+          @endif
+        @endif
       @else
-      <span class="text">Compliance : 0 %</span>
+        @if($terlaksana != 0 && $tepatwaktu != 0)
+        <span class="text">Compliance : {{ number_format($tepatwaktu/$terlaksana * 100, 1) }}%</span>
+        @else
+        <span class="text">Compliance : 0 %</span>
+        @endif
       @endif
     </a>
   </div>
