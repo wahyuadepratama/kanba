@@ -31,12 +31,21 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
 @section('content')
 
 <!-- Page Heading -->
-<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-image"></i> Gallery Coaching</h1>
+<h1 class="h4 mb-2 text-gray-800"><i class="fas fa-image"></i> Materi Coaching</h1>
 <br>
 
 <div>
   <div class="row">
-    <div class="col-md-6 pd-bottom"></div>
+    <div class="col-md-6 pd-bottom">
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" name="search" class="form-control" id="searchMateri">
+        </div>
+        <div class="col-md-2">
+          <button type="button" name="button" class="btn btn-success btn-submit" onclick="search()">Search</button>
+        </div>
+      </div>
+    </div>
     <div class="col-md-6 ">
       <div class="row">
         <div class="col-md-6">
@@ -95,6 +104,11 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
 
   <div class="card-body">
     <div class="table-responsive">
+
+      @if($count != 0)
+      <center><p>Terdapat {{ $count }} data untuk hasil pencarian '{{ $_GET['search'] }}'</p></center>
+      @endif
+
       <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
@@ -103,7 +117,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
             <th>Anak Asuh</th>
             <th>Jadwal Coaching</th>
             <th>Actual Coaching</th>
-            <th class="text-center">Upload Foto</th>
+            <th class="text-center">Pelaksanaan</th>
           </tr>
         </thead>
         <tbody>
@@ -111,11 +125,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
           @forelse($trainee as $t)
             <tr>
               <td>{{ $no++ }}</td>
-              <td class="td-img">
-                <a href="{{ asset('coaching/'. $t->photo)}}" download="coaching_{{ $t->name }}_{{$t->datetime}}_.jpg">
-                  <img src="{{ asset('coaching/'. $t->photo)}}" alt="" class="mx-auto d-block img-fluid img-thumbnail" width="250">
-                </a>
-              </td>
+              <td class="Materi Coaching  &#xa;"> {{ $t->photo }}</td>
               <td data-th="Anak Asuh  &#xa;">{{ $t->name }}</td>
               <td data-th="Jadwal Coaching  &#xa;">{{ $t->datetime }}</td>
               <td data-th="Actual Coaching &#xa;">
@@ -127,9 +137,9 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
               </td>
               <td>
                 @if($t->status == 'ongoing')
-                  <p style="text-align:center">Belum Diupload !</p>
+                  <p style="text-align:center">Belum Disubmit!</p>
                 @else
-                  <p style="text-align:center">Sudah Diupload !</p>
+                  <p style="text-align:center">Sudah Disubmit!</p>
                 @endif
                 <hr class="d-md-none"><br>
               </td>
@@ -232,6 +242,10 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
         $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
       }
     });
+
+    function search(){
+      window.location = '{{ url("") }}' + '/admin/gallery-coaching?search=' + $('#searchMateri').val();
+    }
   </script>
 
 @endsection

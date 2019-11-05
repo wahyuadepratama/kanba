@@ -35,10 +35,10 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
       Keterangan:
       <ul>
         <li>Pilih bulan dan tahun sebelum mengupload foto</li>
-        <li><b>Pastikan nama anak asuh sudah benar</b> sebelum mengupload foto </li>
-        <li><b>Pastikan foto dan jadwal actual coaching sudah benar</b> sebelum mengklik tombol <b>Upload</b></li>
-        <li><b>Foto yang sudah diupload tidak dapat dihapus maupun diubah</b></li>
-        <li>Hubungi admin jika terdapat kesalahan dalam proses upload foto dan actual coaching</li>
+        <li><b>Pastikan nama anak asuh sudah benar</b> sebelum mengupload materi coaching </li>
+        <li><b>Pastikan materi yang diinput dan jadwal actual coaching sudah benar</b> sebelum mengklik tombol <b>Submit</b></li>
+        <li><b>Konfirmasi yang sudah dilakukan tidak dapat dihapus ataupun diubah</b></li>
+        <li>Hubungi admin jika terdapat kesalahan dalam proses konfirmasi pelaksanaan</li>
       </ul>
     </div>
   </div><br>
@@ -98,11 +98,11 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
         <thead>
           <tr>
             <th>No</th>
-            <th>Foto Coaching</th>
+            <th>Materi Coaching</th>
             <th>Anak Asuh</th>
             <th>Jadwal Coaching</th>
             <th>Actual Coaching</th>
-            <th class="text-center">Upload Foto</th>
+            <th class="text-center">Pelaksanaan</th>
           </tr>
         </thead>
         <tbody>
@@ -110,7 +110,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
           @forelse($trainee as $t)
             <tr>
               <td>{{ $no++ }}</td>
-              <td class="td-img"> <img src="{{ asset('coaching/'. $t->photo)}}" alt="" class="mx-auto d-block img-fluid img-thumbnail" width="250"></td>
+              <td class="Materi Coaching  &#xa;"> {{ $t->photo }}</td>
               <td data-th="Anak Asuh  &#xa;">{{ $t->name }}</td>
               <td data-th="Jadwal Coaching  &#xa;">{{ $t->datetime }}</td>
               <td data-th="Actual Coaching &#xa;">
@@ -127,11 +127,11 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
                      <span class="icon text-white-50">
                        <i class="fas fa-plus"></i>
                      </span>
-                     <span class="text">Upload Foto</span>
+                     <span class="text">Submit Materi</span>
                    </a>
                  </center>
                 @else
-                  <p style="text-align:center">Sudah Diupload !</p>
+                  <p style="text-align:center">Sudah Disubmit!</p>
                 @endif
                 <hr class="d-md-none"><br>
               </td>
