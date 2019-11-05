@@ -79,7 +79,7 @@
       <li class="nav-item @yield('active-gallery')">
         <a class="nav-link" href="/admin/gallery-coaching">
           <i class="fas fa-image"></i>
-          <span>Gallery Coaching</span></a>
+          <span>Materi Coaching</span></a>
       </li>
 
       <!-- Divider -->

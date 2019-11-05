@@ -112,7 +112,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans'));
+    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans', 'sch'));
   }
 
   public function filterYearly($year)
@@ -199,7 +199,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans'));
+    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans', 'sch'));
   }
 
   public function filterMonthly($year, $month)
@@ -278,7 +278,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans'));
+    return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans', 'sch'));
   }
 
 }

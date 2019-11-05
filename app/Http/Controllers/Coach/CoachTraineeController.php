@@ -26,21 +26,21 @@ class CoachTraineeController extends Controller
 
     public function upload(Request $request){
       $request->validate([
-        'file' => 'required|image'
+        'description' => 'required'
       ]);
 
-      $time = time() .'.jpg';
+      // $time = time() .'.jpg';
 
-      $img = Image::make($request->file('file'))->resize(300, 200);
-      $img->save('coaching/'. $time, 30);
+      // $img = Image::make($request->file('file'))->resize(300, 200);
+      // $img->save('coaching/'. $time, 30);
 
       $sch = Schedule::find($request->id);
-      $sch->photo = $time;
+      $sch->photo = $request->description;
       $sch->actual = $this->convertDate($request->schedule);
       $sch->status = 'past';
       $sch->save();
 
-      return back()->with('success', 'Upload foto berhasil! Terima kasih sudah melakukan coaching.');
+      return back()->with('success', 'Konfirmasi pelaksanaan berhasil! Terima kasih sudah melakukan coaching.');
     }
 
     public function filter(Request $request)
@@ -59,7 +59,7 @@ class CoachTraineeController extends Controller
       foreach($trainee as $t){
         echo '<tr>
           <td>'. $no++ .'</td>
-          <td class="td-img"> <img src="'. asset('coaching/'. $t->photo).'" alt="" class="mx-auto d-block img-fluid img-thumbnail" width="250"></td>
+          <td class="Materi Coaching  &#xa;">'. $t->photo . '</td>
           <td data-th="Anak Asuh  &#xa;">'. $t->name .'</td>
           <td data-th="Jadwal Coaching  &#xa;">'. $t->datetime .'</td>
           <td data-th="Actual Coaching &#xa;">';
@@ -76,11 +76,11 @@ class CoachTraineeController extends Controller
                  <span class="icon text-white-50">
                    <i class="fas fa-plus"></i>
                  </span>
-                 <span class="text">Upload Foto</span>
+                 <span class="text">Submit Materi</span>
                </a>
              </center>';
             }else{
-              echo '<p style="text-align:center">Sudah Diupload !</p>';
+              echo '<p style="text-align:center">Sudah Disubmit!</p>';
             }
             echo '<hr class="d-md-none"><br>
           </td>

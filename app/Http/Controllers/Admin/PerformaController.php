@@ -120,7 +120,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes', 'sch'));
   }
 
   public function filterYearlyCoachAll($year)
@@ -203,7 +203,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes', 'sch'));
   }
 
   public function filterYearlyCoach($year, $coach)
@@ -290,7 +290,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes', 'sch'));
   }
 
   public function filterMonthlyCoachAll($year, $month)
@@ -364,7 +364,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes', 'sch'));
   }
 
   public function filterMonthlyCoach($year, $month, $coach)
@@ -443,7 +443,7 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
-    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes'));
+    return view('admin.performa')->with(compact('actuals', 'rank', 'label', 'ontimes', 'sch'));
   }
 
   public function export()
