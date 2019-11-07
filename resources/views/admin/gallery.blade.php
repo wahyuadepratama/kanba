@@ -39,7 +39,13 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
     <div class="col-md-6 pd-bottom">
       <div class="row">
         <div class="col-md-6">
-          <input type="text" name="search" class="form-control" id="searchMateri">
+          <input type="text" name="search" placeholder="Cari materi" class="form-control" id="searchMateri">
+          <style media="screen">
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+              color: #8c8e9e8c !important;
+              opacity: 1; /* Firefox */
+            }
+          </style>
         </div>
         <div class="col-md-2">
           <button type="button" name="button" class="btn btn-success btn-submit" onclick="search()">Search</button>
@@ -48,14 +54,7 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
     </div>
     <div class="col-md-6 ">
       <div class="row">
-        <div class="col-md-6">
-          <select class="form-control btn-sm" id="coach" onchange="changeYearMonth()">
-            <option value="all">Semua Coach</option>
-            @foreach($coach as $t)
-            <option value="{{ $t->nik }}">{{ $t->name }}</option>
-            @endforeach
-          </select>
-        </div>
+        <div class="col-md-6"></div>
         <div class="col-md-3">
           <select class="form-control btn-sm" id="month" onchange="changeYearMonth()">
             <option value="1">Januari</option>
@@ -83,6 +82,24 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
 
       </div>
     </div>
+  </div><br>
+  <div class="row">
+    <div class="col-md-4">
+      <select class="form-control btn-sm" id="coach" onchange="changeYearMonth()">
+        <option value="all">== Filter Coach ==</option>
+        <option value="all">Semua Coach</option>
+        @foreach($coach as $t)
+        <option value="{{ $t->nik }}">{{ $t->name }}</option>
+        @endforeach
+      </select>
+    </div>
+    <div class="col-md-5"></div>
+    <div class="col-md-3">
+      <a class="form-control btn btn-success btn-sm btn-icon-split"
+        href="{{ url('/admin/gallery-coaching/export?coach=all&month='.date('m').'&year='. date('Y')) }}" id="export">
+        <span class="text"><i class="fa fa-file-download"></i> &nbsp; Download Excel</span>
+      </a>
+    </div>
   </div>
   <br>
 <!-- DataTales Example -->
@@ -106,14 +123,14 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
     <div class="table-responsive">
 
       @if($count != 0)
-      <center><p>Terdapat {{ $count }} data untuk hasil pencarian '{{ $_GET['search'] }}'</p></center>
+      <center><p>Terdapat {{ $count }} materi coaching untuk hasil pencarian '{{ $_GET['search'] }}'</p></center>
       @endif
 
       <table class="table table-bordered mycustom" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>No</th>
-            <th>Foto Coaching</th>
+            <th>Materi Coaching</th>
             <th>Anak Asuh</th>
             <th>Jadwal Coaching</th>
             <th>Actual Coaching</th>
@@ -126,7 +143,9 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
             <tr>
               <td>{{ $no++ }}</td>
               <td class="Materi Coaching  &#xa;"> {{ $t->photo }}</td>
-              <td data-th="Anak Asuh  &#xa;">{{ $t->name }}</td>
+              <td data-th="Anak Asuh  &#xa;">
+                {{ $t->trainee }}
+              </td>
               <td data-th="Jadwal Coaching  &#xa;">{{ $t->datetime }}</td>
               <td data-th="Actual Coaching &#xa;">
                 @if($t->status == 'ongoing')
@@ -196,6 +215,8 @@ Upload foto bersama anak asuh setelah coaching sebagai bukti anda sudah melakuka
         buttons: false,
         timer: 3000
       });
+
+      $('#export').attr('href', '/admin/gallery-coaching/export?coach='+coach+'&month='+month+'&year='+year);
 
       $.ajax({ /* THEN THE AJAX CALL */
         url: "/admin/gallery-coaching/filter",
