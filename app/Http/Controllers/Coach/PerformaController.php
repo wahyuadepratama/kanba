@@ -112,6 +112,8 @@ class PerformaController extends Controller
         return $a['archivement'] > $b['archivement'] ? -1 : 1; //Compare the scores
     });
 
+    // $trainee = User::where('role_id', '3')->get();
+
     return view('coach.performa')->with(compact('actuals', 'rank', 'label', 'plans', 'sch'));
   }
 

@@ -24,7 +24,6 @@
       <option value="monthly">Monthly Grafik</option>
       <option value="compliance">Compliance</option>
       <option value="ranking">Ranking</option>
-      <option value="material">Materi Coaching</option>
     </select>
   </div>
   <div class="grid-performa-2">
@@ -170,29 +169,6 @@
             <td class="td-ranking">{{ number_format($rank[$i]['archivement'], 1) }}%</td>
           </tr>
           @endfor
-        </tbody>
-      </table>
-    </div>
-    <div class="table-responsive" id="myMaterial">
-      <table class="table table-bordered  mycustom" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Jadwal</th>
-            <th>Actual</th>
-            <th>Materi Coaching</th>
-          </tr>
-        </thead>
-        <tbody>
-          @php $no=1; @endphp
-          @foreach($sch as $sch_)
-          <tr>
-            <td data-th="No ">{{ $no++ }}</td>
-            <td data-th="Jadwal  &#xa;">{{ date('d F Y', strtotime($sch_->datetime)) }}</td>
-            <td data-th="Actual  &#xa;">{{ date('d F Y', strtotime($sch_->actual)) }}</td>
-            <td data-th="Materi  &#xa;">{{ $sch_->photo }}</td>
-          </tr>
-          @endforeach
         </tbody>
       </table>
     </div>
@@ -383,7 +359,6 @@
       $("#myRanking").hide();
       $("#compliance").hide();
       $('#export').hide();
-      $("#myMaterial").hide();
       @if(isset($_GET['type']))
         @if($_GET['type'] == 'yearly')
           $('#month').hide();
@@ -444,17 +419,6 @@
               $("#selectWeekMonth").show();
               $("#achievementResult").show();
               $("#myMaterial").hide();
-            break;
-          case "material":
-              $(".chart-area").hide();
-              $('#month').hide();
-              $('#year').hide();
-              $('#export').show();
-              $('#export').attr('href', type + '&type=archivement');
-              $("#coach").hide();
-              $("#myRanking").hide();
-              $("#compliance").hide();
-              $("#myMaterial").show();
             break;
           default:
            console.log("tampilkan nilai monthly");

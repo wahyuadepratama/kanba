@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth','auth.admin']], function(){
 
   Route::get('/admin/gallery-coaching', 'Admin\GalleryController@index');
   Route::post('admin/gallery-coaching/filter', 'Admin\GalleryController@filter');
+  Route::get('/admin/gallery-coaching/export', 'Admin\GalleryController@export');
 });
 
 
