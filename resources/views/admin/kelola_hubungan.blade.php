@@ -161,6 +161,12 @@
 
 <script type="text/javascript">
 
+  swal({
+    text: "Sinkronisasi data ...",
+    buttons: false,
+    timer: 10000
+  });
+
   function updateTrainee(nik) {
 
     swal({
