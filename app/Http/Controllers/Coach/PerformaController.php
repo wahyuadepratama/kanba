@@ -31,9 +31,10 @@ class PerformaController extends Controller
   public function getAllData()
   {
     $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->join('users', 'users.nik', '=', 'coach_trainees.trainee_nik')
                   ->where('coach_trainees.coach_nik', '=', session('login')->nik)
                   ->whereYear('schedules.datetime', date('Y'))
-                  ->select('schedules.*')
+                  ->select('schedules.*', 'users.name')
                   ->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
@@ -120,9 +121,10 @@ class PerformaController extends Controller
   public function filterYearly($year)
   {
     $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->join('users', 'users.nik', '=', 'coach_trainees.trainee_nik')
                   ->where('coach_trainees.coach_nik', '=', session('login')->nik)
                   ->whereYear('schedules.datetime', $year)
-                  ->select('schedules.*')
+                  ->select('schedules.*', 'users.name')
                   ->get();
     $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
@@ -207,10 +209,11 @@ class PerformaController extends Controller
   public function filterMonthly($year, $month)
   {
     $sch = DB::table('schedules')->join('coach_trainees', 'schedules.relationship_id', '=', 'coach_trainees.id')
+                  ->join('users', 'users.nik', '=', 'coach_trainees.trainee_nik')
                   ->where('coach_trainees.coach_nik', '=', session('login')->nik)
                   ->whereYear('schedules.datetime', $year)
                   ->whereMonth('schedules.datetime', $month)
-                  ->select('schedules.*')
+                  ->select('schedules.*', 'users.name')
                   ->get();
     $label = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 
