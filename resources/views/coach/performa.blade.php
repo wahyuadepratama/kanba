@@ -72,6 +72,7 @@
                   <thead>
                     <tr>
                       <th>No</th>
+                      <th>Name</th>
                       <th>Jadwal</th>
                       <th>Actual</th>
                       <th>Materi Coaching</th>
@@ -82,6 +83,7 @@
                     @foreach($sch as $sch_)
                     <tr>
                       <td data-th="No ">{{ $no++ }}</td>
+                      <td data-th="Name">{{ $sch_->name }}</td>
                       <td data-th="Jadwal  &#xa;">{{ date('d F Y', strtotime($sch_->datetime)) }}</td>
                       <td data-th="Actual  &#xa;">{{ date('d F Y', strtotime($sch_->actual)) }}</td>
                       <td data-th="Materi  &#xa;">{{ $sch_->photo }}</td>

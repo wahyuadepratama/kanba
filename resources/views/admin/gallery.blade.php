@@ -1,6 +1,6 @@
 @extends('layout.core_admin')
 
-@section('title','Data Anak Asuh')
+@section('title','Materi Coaching')
 
 @section('active-gallery','active')
 
