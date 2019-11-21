@@ -112,19 +112,7 @@
               <td data-th="No WhatsApp  &#xa;">{{ $d->phone }}</td>
               <td data-th="Anak Asuh  &#xa;">
                 <ul>
-                  @php $find = false @endphp
-
-                  @forelse($relationship as $r)
-                    @if($r->coach_nik == $d->nik)
-                      <li>{{ $r->trainee->name }}</li>
-                      @php $find = true @endphp
-                    @endif
-                  @empty
-                  @endforelse
-
-                  @if($find == false)
-                    <p>Belum ada anak asuh !</p>
-                  @endif
+                  {!! $d->trainee_result !!}
                 </ul>
               </td>
               <td>
@@ -164,7 +152,7 @@
   swal({
     text: "Sinkronisasi data ...",
     buttons: false,
-    timer: 10000
+    timer: 5000
   });
 
   function updateTrainee(nik) {

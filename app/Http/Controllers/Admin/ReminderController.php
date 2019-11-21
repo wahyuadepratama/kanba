@@ -39,4 +39,46 @@ class ReminderController extends Controller
       }
     }
 
+    public function reminderEveryWeek()
+    {
+      $sch = Schedule::whereYear('datetime', date('Y'))->whereMonth('datetime', date('m'))->with('relationship')->get();
+
+      foreach ($sch as $data) {
+
+        $msg = 'Hello '. $data->relationship->coach->name .', berikut adalah status coaching kamu bulan ini: \n\n'.$data.'\nJangan lupa untuk mengingatkan anak asuh anda ya ^_^ dan jangan lupa juga untuk input materi setelah coaching di https://coachingbuma.com' + '\n\nTerima Kasih';
+        $post = [
+          'phone' => $data->relationship->coach->phone,
+          'message' => $msg
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => Config::get('app.url_send_message_whatsapp'),
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => json_encode($post),
+          CURLOPT_HTTPHEADER => array(
+            "content-type: application/json",
+            "token: ". Config::get('app.api_send_message_whatsapp')
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err)
+          echo "cURL Error #:" . $err;
+        else
+          echo $response;
+
+      }
+    }
+
 }

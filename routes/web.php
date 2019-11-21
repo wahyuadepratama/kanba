@@ -23,6 +23,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/reminder/three-days', 'Admin\ReminderController@reminderThreeDays');
 Route::get('/reminder/two-days', 'Admin\ReminderController@reminderTwoDays');
 Route::get('/reminder/one-day', 'Admin\ReminderController@reminderOneDay');
+Route::get('/reminder/every-week', 'Admin\ReminderController@reminderEveryWeek');
 
 Route::group(['middleware' => ['auth','auth.admin']], function(){
 

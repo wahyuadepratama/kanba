@@ -50,6 +50,10 @@ class ScheduleController extends Controller
 
       $this->convertDateToHumans($schedule);
 
+      // foreach ($schedule as $s) {
+      //   return $s->relationship->trainee->nik;
+      // }
+
       return view('admin.kelola_jadwal')->with(compact("coach", "relationship", "schedule"));
     }
 
@@ -68,7 +72,7 @@ class ScheduleController extends Controller
       $relationship = CoachTrainee::where('month', $month)->where('year', $year)->get();
       $schedule = Schedule::whereMonth('datetime', $month)->whereYear('datetime', $year)->get();
       $this->convertDateToHumans($schedule);
-      
+
       foreach($relationship as $r)
         if($r->coach_nik == $nik){
           echo '- '.$r->trainee->name." : ";
