@@ -50,9 +50,37 @@ class ScheduleController extends Controller
 
       $this->convertDateToHumans($schedule);
 
-      // foreach ($schedule as $s) {
-      //   return $s->relationship->trainee->nik;
-      // }
+      foreach ($coach as $c) {
+
+        $found = false;
+        $result = "";
+
+        foreach($schedule as $sch){
+          if ($c->nik == $sch->relationship->coach_nik){
+            $result .= "<li>".$sch->relationship->trainee->name;
+              if($sch->status == "ongoing"){
+                $result .= '<b class="text text-danger"> ('. $sch->datetime .')</b>';
+              }else{
+                $result .= '<b class="text text-success"> ('. $sch->actual .')</b>';
+              }
+            $result .= "</li>";
+            $found = true;
+          }
+        }
+
+        if($found == false){
+          foreach($relationship as $r){
+            if($r->coach_nik == $c->nik){
+              $result .= '<li>'. $r->trainee->name;
+              $result .= '<b class="text text-warning"> (Belum dibuat!)</b>';
+              $result .= '</li>';
+            }
+          }
+        }
+
+        $c->result = $result;
+
+      }
 
       return view('admin.kelola_jadwal')->with(compact("coach", "relationship", "schedule"));
     }

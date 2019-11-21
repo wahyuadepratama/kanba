@@ -67,32 +67,7 @@
               <td data-th="Nama Bapak Asuh  &#xa;">{{ $c->name }} ({{ $c->nik }})</td>
               <td data-th="Anak Asuh  &#xa;">
                 <ul>
-                  @php $found = false @endphp
-                  @foreach($schedule as $sch)
-
-                  <?php if ($c->nik == $sch->relationship->coach_nik): ?>
-                    <li>
-                      {{ $sch->relationship->trainee->name }}
-                      @if($sch->status == "ongoing")
-                        <b class="text text-danger">({{ $sch->datetime }})</b>
-                      @else
-                        <b class="text text-success">({{ $sch->actual }})</b>
-                      @endif
-                    </li>
-                    @php $found = true @endphp
-                  <?php endif; ?>
-                  @endforeach
-
-                  @if($found == false)
-                    @foreach($relationship as $r)
-                      @if($r->coach_nik == $c->nik)
-                        <li>
-                          {{ $r->trainee->name }}
-                          <b class="text text-warning"> (Belum dibuat!)</b>
-                        </li>
-                      @endif
-                    @endforeach
-                  @endif          
+                  {!! $c->result !!}
                 </ul>
               </td>
               <td>
