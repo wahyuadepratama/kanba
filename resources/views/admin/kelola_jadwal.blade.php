@@ -67,39 +67,32 @@
               <td data-th="Nama Bapak Asuh  &#xa;">{{ $c->name }} ({{ $c->nik }})</td>
               <td data-th="Anak Asuh  &#xa;">
                 <ul>
-                  @php $find = false @endphp
-                  @forelse($relationship as $r)
-                    @if($r->coach_nik == $c->nik)
-                      <li>
+                  @php $found = false @endphp
+                  @foreach($schedule as $sch)
 
-                        {{ $r->trainee->name }}
+                  <?php if ($c->nik == $sch->relationship->coach_nik): ?>
+                    <li>
+                      {{ $sch->relationship->trainee->name }}
+                      @if($sch->status == "ongoing")
+                        <b class="text text-danger">({{ $sch->datetime }})</b>
+                      @else
+                        <b class="text text-success">({{ $sch->actual }})</b>
+                      @endif
+                    </li>
+                    @php $found = true @endphp
+                  <?php endif; ?>
+                  @endforeach
 
-                        @php $found = false @endphp
-                        @forelse($schedule as $s)
-                          @if($s->relationship_id == $r->id)
-                            @if($s->status == "ongoing")
-                              <b class="text text-danger">({{ $s->datetime }})</b>
-                            @else
-                              <b class="text text-success">({{ $s->actual }})</b>
-                            @endif
-                            @php $found = true @endphp
-                          @endif
-                        @empty
-                        @endforelse
-
-                        @if($found == false)
-                          <b class="text text-warning">(Belum dibuat!)</b>
-                        @endif
-
-                      </li>
-                      @php $find = true @endphp
-                    @endif
-                  @empty
-                  @endforelse
-
-                  @if($find == false)
-                    <p>Belum ada anak asuh !</p>
-                  @endif
+                  @if($found == false)
+                    @foreach($relationship as $r)
+                      @if($r->coach_nik == $c->nik)
+                        <li>
+                          {{ $r->trainee->name }}
+                          <b class="text text-warning"> (Belum dibuat!)</b>
+                        </li>
+                      @endif
+                    @endforeach
+                  @endif          
                 </ul>
               </td>
               <td>

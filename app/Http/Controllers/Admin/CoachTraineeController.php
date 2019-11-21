@@ -22,6 +22,22 @@ class CoachTraineeController extends Controller
 
       $coach = User::where('role_id', 2)->orderBy('name', 'asc')->get();
       $trainee = User::where('role_id', 3)->orderBy('name', 'asc')->get();
+
+      foreach ($coach as $co) {
+        $result= '';
+        foreach ($relationship as $rel) {
+          if($rel->coach_nik == $co->nik){
+            $result .= '<li>'.$rel->trainee->name.'</li>';
+          }
+        }
+        if ($result == '') {
+          $co->trainee_result = '<p>Belum ada anak asuh !</p>';
+        }else{
+          $co->trainee_result = $result;
+        }
+      }
+
+      // return $coach;
       return view('admin.kelola_hubungan')->with(compact("coach", "relationship", "trainee"));
     }
 
@@ -46,7 +62,7 @@ class CoachTraineeController extends Controller
       $result = [];
       $name = [];
       $nik = [];
-      
+
       foreach ($data as $key)
         array_push($nik, $key->trainee_nik);
 
@@ -92,6 +108,9 @@ class CoachTraineeController extends Controller
 
       $coach = User::where('role_id', 2)->orderBy('name', 'asc')->get();
       $no = 1;
+
+      $trainees = CoachTrainee::where('month', $request->month)->where('year', $request->year)->get();
+
       foreach ($coach as $d) {
         echo '<tr>
           <td>'. $no++ .'</td>
@@ -99,17 +118,19 @@ class CoachTraineeController extends Controller
           <td>'. $d->name .'</td>
           <td>'. $d->phone .'</td>
           <td>';
-              $trainees = CoachTrainee::where('coach_nik', $d->nik)->where('month', $request->month)->where('year', $request->year)->get();
-              if (!$trainees->isEmpty()) {
-                echo '<ul>';
-                foreach($trainees as $trainee){
-                    echo '<li>'. $trainee->trainee->name .'</li>';
-                }
-                echo '</ul>';
-              }else{
-                  echo '<p>Belum ada anak asuh !</p>';
+            echo '<ul>';
+            foreach ($trainees as $trainee) {
+              $found = false;
+              if ($d->nik == $trainee->coach_nik) {
+                echo '<li>'. $trainee->trainee->name .'</li>';
+                $found = true;
               }
-            echo '</td>
+            }
+            if (!$found) {
+              echo '<p>Belum ada anak asuh !</p>';
+            }
+            echo '</ul>
+          </td>
           <td>
             <a class="btn btn-sm btn-warning" href="#" data-toggle="modal" data-target="#exampleModalCenter"
               onclick="updateTrainee(\''. $d->nik .'\')">Update</a>
